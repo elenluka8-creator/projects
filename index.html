@@ -6,7 +6,7 @@
     <title>Unfolda — Read books in original languages</title>
     <meta
       name="description"
-      content="Unfolda helps you read books in original languages with parallel paragraphs. Upload EPUB and learn naturally without switching apps."
+      content="Unfolda helps you read books in original languages with parallel paragraphs. Upload EPUB and learn naturally without switching to translators."
     />
     <meta
       name="keywords"
@@ -78,7 +78,7 @@
     <main>
       <div class="container">
         <header class="topbar fade-in" aria-label="Panel controls">
-          <a class="brand" href="#" aria-label="Unfolda home">Unfolda</a>
+          <a class="brand" href="https://unfolda.ai" aria-label="Unfolda home" target="_blank" rel="noopener noreferrer">Unfolda</a>
           <div class="control-row" id="languageSwitcher">
             <button class="chip js-lang" data-lang="ru" aria-pressed="false">RU</button>
             <button class="chip js-lang" data-lang="sr" aria-pressed="false">SR</button>
@@ -104,7 +104,13 @@
             <p data-i18n="hero_subtitle"></p>
             <div class="hero-actions">
               <a class="btn js-track" data-track="hero_start_free" href="#cta" data-i18n="hero_cta"></a>
-              <a class="btn secondary js-track" data-track="hero_to_jobs" href="https://www.unfolda.ai/en/jobs" data-i18n="hero_site"></a>
+              <a
+                class="btn secondary js-track"
+                data-track="hero_to_website"
+                href="https://unfolda.ai"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-i18n="hero_site"></a>
             </div>
             <div class="hero-proof">
               <span class="hero-proof-chip" data-i18n="hero_proof_1"></span>
@@ -115,23 +121,12 @@
 
           <div class="hero-visual fade-in">
             <div class="mascot-card" aria-label="Unfolda mascot">
-              <svg class="mascot-svg" viewBox="0 0 120 120" role="img" aria-hidden="true">
-                <circle cx="60" cy="60" r="50" fill="url(#mascotGradient)" />
-                <ellipse cx="42" cy="54" rx="13" ry="16" fill="#ffffff" />
-                <ellipse cx="78" cy="54" rx="13" ry="16" fill="#ffffff" />
-                <circle cx="42" cy="55" r="6" fill="#162048" />
-                <circle cx="78" cy="55" r="6" fill="#162048" />
-                <path d="M60 64 L53 76 L67 76 Z" fill="#ffd37a" />
-                <path d="M42 35 L29 22 L48 28 Z" fill="#8dd8ff" />
-                <path d="M78 35 L91 22 L72 28 Z" fill="#8dd8ff" />
-                <path d="M43 86 C50 91, 70 91, 77 86" stroke="#ffffff" stroke-width="4" stroke-linecap="round" fill="none" />
-                <defs>
-                  <linearGradient id="mascotGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#6f7bff" />
-                    <stop offset="100%" stop-color="#5cd5ff" />
-                  </linearGradient>
-                </defs>
-              </svg>
+              <img
+                class="mascot-image"
+                src="https://em-content.zobj.net/thumbs/160/apple/354/owl_1f989.png"
+                alt="Uno the Owl"
+                loading="lazy"
+              />
               <div>
                 <strong data-i18n="mascot_title"></strong>
                 <p data-i18n="mascot_text"></p>
@@ -286,14 +281,13 @@
             <h2 data-i18n="cta_title"></h2>
             <p data-i18n="cta_text"></p>
             <div class="store-buttons">
-              <a class="btn js-track" data-track="download_appstore" href="https://apps.apple.com" target="_blank" rel="noopener noreferrer" data-i18n="cta_appstore"></a>
               <a
-                class="btn secondary js-track"
-                data-track="download_google_play"
-                href="https://play.google.com/store"
+                class="btn js-track"
+                data-track="open_web_service"
+                href="https://unfolda.ai"
                 target="_blank"
                 rel="noopener noreferrer"
-                data-i18n="cta_google_play"></a>
+                data-i18n="cta_web"></a>
             </div>
             <ul class="cta-trust-list">
               <li data-i18n="cta_trust_1"></li>

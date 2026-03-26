@@ -185,7 +185,7 @@ html[data-theme="light"] .eyebrow {
 }
 
 .hero {
-  padding-top: 22px;
+  padding-top: 48px;
 }
 
 .hero-grid {
@@ -245,6 +245,9 @@ html[data-theme="light"] .btn.secondary {
   width: 84px;
   height: 84px;
   flex: 0 0 auto;
+  border-radius: 14px;
+  object-fit: cover;
+  box-shadow: 0 8px 24px rgba(20, 30, 60, 0.25);
 }
 
 .mascot-card strong {
@@ -581,6 +584,10 @@ html[data-theme="light"] .faq-item p {
 @media (min-width: 768px) {
   .section {
     padding: 82px 0;
+  }
+
+  .hero {
+    padding-top: 72px;
   }
 
   .topbar {

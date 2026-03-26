@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-label="Uno Owl mascot">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6f7bff" />
+      <stop offset="100%" stop-color="#5cd5ff" />
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-opacity="0.25" />
+    </filter>
+  </defs>
+  <circle cx="120" cy="120" r="98" fill="url(#g)" filter="url(#shadow)" />
+  <ellipse cx="120" cy="150" rx="62" ry="54" fill="#f6f7ff" />
+  <ellipse cx="85" cy="98" rx="30" ry="36" fill="#ffffff" />
+  <ellipse cx="155" cy="98" rx="30" ry="36" fill="#ffffff" />
+  <circle cx="85" cy="101" r="15" fill="#1a2144" />
+  <circle cx="155" cy="101" r="15" fill="#1a2144" />
+  <circle cx="90" cy="96" r="4" fill="#ffffff" />
+  <circle cx="160" cy="96" r="4" fill="#ffffff" />
+  <path d="M120 112 L108 132 L132 132 Z" fill="#ffd37a" />
+  <path d="M80 66 L55 42 L92 50 Z" fill="#94dcff" />
+  <path d="M160 66 L185 42 L148 50 Z" fill="#94dcff" />
+  <path d="M84 170 C96 182, 144 182, 156 170" fill="none" stroke="#1a2144" stroke-width="6" stroke-linecap="round" />
+</svg>
