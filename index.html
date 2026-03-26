@@ -79,13 +79,20 @@
       <div class="container">
         <header class="topbar fade-in" aria-label="Panel controls">
           <a class="brand" href="#" aria-label="Unfolda home">Unfolda</a>
-          <div class="control-row">
+          <div class="control-row" id="languageSwitcher">
             <button class="chip js-lang" data-lang="ru" aria-pressed="false">RU</button>
             <button class="chip js-lang" data-lang="sr" aria-pressed="false">SR</button>
             <button class="chip js-lang" data-lang="en" aria-pressed="false">EN</button>
             <button class="chip js-theme js-track" data-track="theme_toggle" id="themeToggle" aria-pressed="false"></button>
           </div>
         </header>
+        <div class="lang-notice fade-in" id="langNotice" hidden>
+          <p class="lang-notice-text" id="langNoticeText"></p>
+          <div class="lang-notice-actions">
+            <button class="chip chip-ghost js-lang-open js-track" data-track="language_notice_change" data-i18n="lang_notice_change"></button>
+            <button class="chip chip-ghost js-lang-dismiss js-track" data-track="language_notice_dismiss" data-i18n="lang_notice_dismiss"></button>
+          </div>
+        </div>
       </div>
 
       <section class="section hero">
@@ -97,6 +104,11 @@
             <div class="hero-actions">
               <a class="btn js-track" data-track="hero_start_free" href="#cta" data-i18n="hero_cta"></a>
               <a class="btn secondary js-track" data-track="hero_to_jobs" href="https://www.unfolda.ai/en/jobs" data-i18n="hero_site"></a>
+            </div>
+            <div class="hero-proof">
+              <span class="hero-proof-chip" data-i18n="hero_proof_1"></span>
+              <span class="hero-proof-chip" data-i18n="hero_proof_2"></span>
+              <span class="hero-proof-chip" data-i18n="hero_proof_3"></span>
             </div>
           </div>
 
@@ -112,6 +124,32 @@
                 <p data-i18n="mockup_p2"></p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-proof">
+        <div class="container fade-in">
+          <h2 data-i18n="proof_title"></h2>
+          <p data-i18n="proof_subtitle"></p>
+          <div class="proof-grid">
+            <article class="card">
+              <h3 data-i18n="proof1_value"></h3>
+              <p data-i18n="proof1_text"></p>
+            </article>
+            <article class="card">
+              <h3 data-i18n="proof2_value"></h3>
+              <p data-i18n="proof2_text"></p>
+            </article>
+            <article class="card">
+              <h3 data-i18n="proof3_value"></h3>
+              <p data-i18n="proof3_text"></p>
+            </article>
+          </div>
+          <div class="trust-row">
+            <span class="trust-pill" data-i18n="trust_1"></span>
+            <span class="trust-pill" data-i18n="trust_2"></span>
+            <span class="trust-pill" data-i18n="trust_3"></span>
           </div>
         </div>
       </section>
@@ -192,6 +230,30 @@
         </div>
       </section>
 
+      <section class="section">
+        <div class="container fade-in">
+          <h2 data-i18n="faq_title"></h2>
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary data-i18n="faq_q1"></summary>
+              <p data-i18n="faq_a1"></p>
+            </details>
+            <details class="faq-item">
+              <summary data-i18n="faq_q2"></summary>
+              <p data-i18n="faq_a2"></p>
+            </details>
+            <details class="faq-item">
+              <summary data-i18n="faq_q3"></summary>
+              <p data-i18n="faq_a3"></p>
+            </details>
+            <details class="faq-item">
+              <summary data-i18n="faq_q4"></summary>
+              <p data-i18n="faq_a4"></p>
+            </details>
+          </div>
+        </div>
+      </section>
+
       <section class="section section-cta" id="cta">
         <div class="container">
           <div class="cta-wrap fade-in">
@@ -207,11 +269,20 @@
                 rel="noopener noreferrer"
                 data-i18n="cta_google_play"></a>
             </div>
+            <ul class="cta-trust-list">
+              <li data-i18n="cta_trust_1"></li>
+              <li data-i18n="cta_trust_2"></li>
+              <li data-i18n="cta_trust_3"></li>
+            </ul>
             <p class="footer-note"><span data-i18n="footer_note"></span> © <span id="year"></span> Unfolda.</p>
           </div>
         </div>
       </section>
     </main>
+
+    <div class="sticky-mobile-cta">
+      <a class="btn js-track" data-track="sticky_cta_click" href="#cta" data-i18n="sticky_cta"></a>
+    </div>
 
     <script src="./locales.js" defer></script>
     <script src="./app.js" defer></script>

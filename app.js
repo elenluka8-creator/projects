@@ -4,6 +4,7 @@
   const METRIKA_COUNTER_ID = 0;
   const TEXTS = window.UnfoldaLocales || {};
   const DEFAULT_LANG = "en";
+  const LANGUAGE_NOTICE_DISMISSED_KEY = "unfolda_lang_notice_dismissed";
 
   const COUNTRY_LANG_MAP = {
     RU: "ru",
@@ -59,7 +60,10 @@
     themeButton.textContent = currentTheme === "dark" ? bundle.theme_toggle_dark : bundle.theme_toggle_light;
   };
 
-  const applyLanguage = (lang, shouldPersist = true) => {
+  const applyLanguage = (lang, options = {}) => {
+    const shouldPersist = options.shouldPersist !== false;
+    const source = options.source || "manual";
+    const showTooltip = Boolean(options.showTooltip);
     const bundle = TEXTS[lang] || TEXTS[DEFAULT_LANG];
     if (!bundle) return;
 
@@ -82,6 +86,29 @@
     }
 
     updateThemeToggleText();
+    updateLanguageNotice(source, lang, showTooltip);
+  };
+
+  const updateLanguageNotice = (source, lang, showRequested) => {
+    const notice = document.getElementById("langNotice");
+    const text = document.getElementById("langNoticeText");
+    if (!notice || !text) return;
+
+    const dismissed = localStorage.getItem(LANGUAGE_NOTICE_DISMISSED_KEY) === "1";
+    const bundle = TEXTS[document.documentElement.lang] || TEXTS[DEFAULT_LANG];
+    if (!bundle) return;
+
+    const messageKey =
+      source === "geo"
+        ? `lang_notice_geo_${lang}`
+        : source === "browser"
+          ? `lang_notice_browser_${lang}`
+          : "lang_notice_unknown_en";
+
+    text.textContent = bundle[messageKey] || bundle.lang_notice_unknown_en || "";
+
+    const shouldShow = showRequested && !dismissed && (source === "geo" || source === "browser");
+    notice.hidden = !shouldShow;
   };
 
   const applyTheme = (theme, shouldPersist = true) => {
@@ -122,16 +149,16 @@
   const detectInitialLanguage = async () => {
     const persisted = localStorage.getItem("unfolda_lang");
     if (persisted && TEXTS[persisted]) {
-      return persisted;
+      return { lang: persisted, source: "persisted", showTooltip: false };
     }
 
     const countryCode = await detectCountryCode();
     if (countryCode && COUNTRY_LANG_MAP[countryCode]) {
-      return COUNTRY_LANG_MAP[countryCode];
+      return { lang: COUNTRY_LANG_MAP[countryCode], source: "geo", showTooltip: true };
     }
 
     // For all other countries or unavailable geo, use browser preference.
-    return normalizeBrowserLanguage();
+    return { lang: normalizeBrowserLanguage(), source: "browser", showTooltip: true };
   };
 
   const initHandlers = () => {
@@ -148,7 +175,11 @@
     document.querySelectorAll(".js-lang").forEach((button) => {
       button.addEventListener("click", () => {
         const selectedLang = button.dataset.lang || DEFAULT_LANG;
-        applyLanguage(selectedLang);
+        applyLanguage(selectedLang, { source: "manual", showTooltip: false });
+        const notice = document.getElementById("langNotice");
+        if (notice) {
+          notice.hidden = true;
+        }
         trackEvent("language_switch", { language: selectedLang });
       });
     });
@@ -162,6 +193,37 @@
         trackEvent("theme_switch", { theme: next });
       });
     }
+
+    const notice = document.getElementById("langNotice");
+    const dismissButton = document.querySelector(".js-lang-dismiss");
+    const openButton = document.querySelector(".js-lang-open");
+    const switcher = document.getElementById("languageSwitcher");
+
+    if (dismissButton && notice) {
+      dismissButton.addEventListener("click", () => {
+        notice.hidden = true;
+        localStorage.setItem(LANGUAGE_NOTICE_DISMISSED_KEY, "1");
+      });
+    }
+
+    if (openButton && switcher) {
+      openButton.addEventListener("click", () => {
+        switcher.scrollIntoView({ behavior: "smooth", block: "center" });
+        switcher.classList.add("switcher-highlight");
+        window.setTimeout(() => {
+          switcher.classList.remove("switcher-highlight");
+        }, 1200);
+      });
+    }
+
+    // Track FAQ open interactions for conversion insight.
+    document.querySelectorAll(".faq-item").forEach((item, index) => {
+      item.addEventListener("toggle", () => {
+        if (item.open) {
+          trackEvent("faq_open", { faq_index: index + 1 });
+        }
+      });
+    });
   };
 
   const initAnimations = () => {
@@ -193,7 +255,11 @@
     initTheme();
 
     const initialLanguage = await detectInitialLanguage();
-    applyLanguage(initialLanguage, false);
+    applyLanguage(initialLanguage.lang, {
+      shouldPersist: false,
+      source: initialLanguage.source,
+      showTooltip: initialLanguage.showTooltip,
+    });
 
     const yearNode = document.getElementById("year");
     if (yearNode) {
