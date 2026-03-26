@@ -1,32 +1,32 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Unfolda — Читайте любимые книги в оригинале</title>
+    <title>Unfolda — Read books in original languages</title>
     <meta
       name="description"
-      content="Unfolda помогает читать книги в оригинале через параллельные абзацы: загружайте EPUB/FB2/PDF и изучайте английский и сербский без переключений в переводчики."
+      content="Unfolda helps you read books in original languages with parallel paragraphs. Upload EPUB/FB2/PDF and learn naturally without switching apps."
     />
     <meta
       name="keywords"
-      content="Unfolda, изучение языков, чтение в оригинале, английский, сербский, параллельный перевод, EdTech"
+      content="Unfolda, language learning, read in original language, English, Serbian, Russian, EdTech"
     />
     <meta name="robots" content="index,follow" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Unfolda" />
-    <meta property="og:title" content="Читайте любимые книги в оригинале с Unfolda" />
+    <meta property="og:title" content="Read your favorite books in original languages with Unfolda" />
     <meta
       property="og:description"
-      content="Загружайте свои книги и читайте по методу параллельных абзацев. Учите языки естественно, без боли и постоянных переключений."
+      content="Upload your own books and read with parallel paragraphs. Learn languages naturally and stay in flow."
     />
-    <meta property="og:url" content="https://www.unfolda.ai/en/jobs" />
+    <meta property="og:url" content="https://www.unfolda.ai/" />
     <meta property="og:image" content="https://www.unfolda.ai/og-image.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Unfolda — читайте в оригинале и понимайте каждое слово" />
+    <meta name="twitter:title" content="Unfolda — read in original language and understand every word" />
     <meta
       name="twitter:description"
-      content="Параллельные абзацы, умный AI-перевод и ваш собственный контент в одном приложении."
+      content="Parallel paragraphs, smart AI translation, and your own books in one app."
     />
     <meta name="twitter:image" content="https://www.unfolda.ai/og-image.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -84,6 +84,8 @@
         --primary-2: #5cd5ff;
         --card-border: rgba(255, 255, 255, 0.12);
         --radius: 20px;
+        --topbar-bg: rgba(11, 16, 32, 0.72);
+        --chip-bg: rgba(255, 255, 255, 0.06);
       }
 
       * {
@@ -103,6 +105,19 @@
         line-height: 1.55;
       }
 
+      html[data-theme="light"] {
+        --bg: #f6f8ff;
+        --bg-soft: #ecf0ff;
+        --surface: #ffffff;
+        --text: #1a2144;
+        --muted: #4c5575;
+        --primary: #4f5dff;
+        --primary-2: #3eb8ff;
+        --card-border: rgba(26, 33, 68, 0.15);
+        --topbar-bg: rgba(246, 248, 255, 0.86);
+        --chip-bg: rgba(79, 93, 255, 0.08);
+      }
+
       a {
         color: inherit;
         text-decoration: none;
@@ -115,6 +130,51 @@
 
       .section {
         padding: 64px 0;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 10px;
+        z-index: 10;
+        margin-top: 10px;
+        border: 1px solid var(--card-border);
+        border-radius: 16px;
+        background: var(--topbar-bg);
+        backdrop-filter: blur(8px);
+        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .brand {
+        font-weight: 800;
+        font-size: 18px;
+        letter-spacing: -0.02em;
+      }
+
+      .control-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .chip {
+        border: 1px solid var(--card-border);
+        border-radius: 10px;
+        background: var(--chip-bg);
+        color: var(--text);
+        padding: 8px 10px;
+        min-height: 38px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .chip[aria-pressed="true"] {
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        color: #ffffff;
       }
 
       .eyebrow {
@@ -182,7 +242,7 @@
       }
 
       .hero {
-        padding-top: 28px;
+        padding-top: 22px;
       }
 
       .hero-grid {
@@ -243,12 +303,25 @@
         color: #ecf0ff;
       }
 
+      html[data-theme="light"] .phone-mockup {
+        background: linear-gradient(180deg, #f8f9ff 0%, #e9eeff 100%);
+      }
+
+      html[data-theme="light"] .phone-card p,
+      html[data-theme="light"] .phone-card strong {
+        color: #1a2144;
+      }
+
       .highlight-box {
         margin-top: 18px;
         padding: 18px;
         border-radius: 16px;
         border: 1px solid var(--card-border);
         background: rgba(92, 213, 255, 0.08);
+      }
+
+      .solution-prefix {
+        color: var(--text);
       }
 
       .steps,
@@ -327,6 +400,11 @@
           padding: 82px 0;
         }
 
+        .topbar {
+          margin-top: 16px;
+          padding: 12px 14px;
+        }
+
         .hero-grid {
           grid-template-columns: 1.15fr 0.85fr;
           align-items: center;
@@ -349,18 +427,27 @@
   </head>
   <body>
     <main>
+      <div class="container">
+        <header class="topbar fade-in" aria-label="Panel controls">
+          <a class="brand" href="#" aria-label="Unfolda home">Unfolda</a>
+          <div class="control-row">
+            <button class="chip js-lang" data-lang="ru" aria-pressed="false">RU</button>
+            <button class="chip js-lang" data-lang="sr" aria-pressed="false">SR</button>
+            <button class="chip js-lang" data-lang="en" aria-pressed="false">EN</button>
+            <button class="chip js-theme js-track" data-track="theme_toggle" id="themeToggle" aria-pressed="false"></button>
+          </div>
+        </header>
+      </div>
+
       <section class="section hero">
         <div class="container hero-grid">
           <div class="hero-copy fade-in">
-            <span class="eyebrow">Чтение без словарей и боли</span>
-            <h1>Читайте любимые книги в оригинале. Понимайте каждое слово.</h1>
-            <p>
-              Загружайте свои e-pub книги и читайте по методу параллельных абзацев. Учите английский и сербский языки
-              естественно, не отвлекаясь на переводчики.
-            </p>
+            <span class="eyebrow" data-i18n="hero_eyebrow"></span>
+            <h1 data-i18n="hero_title"></h1>
+            <p data-i18n="hero_subtitle"></p>
             <div class="hero-actions">
-              <a class="btn js-track" data-track="hero_start_free" href="#cta">Начать читать бесплатно</a>
-              <a class="btn secondary js-track" data-track="hero_to_jobs" href="https://www.unfolda.ai/en/jobs">Открыть сайт Unfolda</a>
+              <a class="btn js-track" data-track="hero_start_free" href="#cta" data-i18n="hero_cta"></a>
+              <a class="btn secondary js-track" data-track="hero_to_jobs" href="https://www.unfolda.ai/en/jobs" data-i18n="hero_site"></a>
             </div>
           </div>
 
@@ -368,16 +455,12 @@
             <div class="phone-mockup" aria-label="Интерфейс приложения Unfolda">
               <div class="phone-topbar"></div>
               <div class="phone-card">
-                <strong>ENGLISH</strong>
-                <p>
-                  “She had not known the weight of silence until she left home and heard her own steps in a new city.”
-                </p>
+                <strong data-i18n="mockup_l1"></strong>
+                <p data-i18n="mockup_p1"></p>
               </div>
               <div class="phone-card">
-                <strong>РУССКИЙ</strong>
-                <p>
-                  «Она не знала веса тишины, пока не покинула дом и не услышала собственные шаги в новом городе».
-                </p>
+                <strong data-i18n="mockup_l2"></strong>
+                <p data-i18n="mockup_p2"></p>
               </div>
             </div>
           </div>
@@ -386,15 +469,12 @@
 
       <section class="section">
         <div class="container fade-in">
-          <h2>Хватит гуглить каждое слово</h2>
-          <p>
-            Учить язык по учебникам скучно, а читать книги в оригинале — тяжело. Постоянно переключаться между читалкой и
-            переводчиком убивает все удовольствие от сюжета.
-          </p>
+          <h2 data-i18n="problem_title"></h2>
+          <p data-i18n="problem_text"></p>
           <div class="highlight-box">
             <p>
-              <strong style="color: #ffffff">Решение Unfolda:</strong> Вы просто загружаете свою книгу. Приложение разбивает
-              её на смысловые блоки и дает перевод абзац в абзац. Вы остаетесь в потоке чтения, а мозг запоминает контекст.
+              <strong class="solution-prefix" data-i18n="solution_prefix"></strong>
+              <span data-i18n="solution_text"></span>
             </p>
           </div>
         </div>
@@ -402,22 +482,22 @@
 
       <section class="section">
         <div class="container fade-in">
-          <h2>Как это работает</h2>
+          <h2 data-i18n="how_title"></h2>
           <div class="steps">
             <article class="step">
               <span class="step-index">1</span>
-              <h3>Загрузите свою книгу</h3>
-              <p>Поддерживаем EPUB/FB2/PDF, чтобы начать можно было сразу с вашей текущей библиотеки.</p>
+              <h3 data-i18n="step1_title"></h3>
+              <p data-i18n="step1_text"></p>
             </article>
             <article class="step">
               <span class="step-index">2</span>
-              <h3>Выберите пару языков</h3>
-              <p>Английский, русский или сербский в любых комбинациях под вашу цель и уровень.</p>
+              <h3 data-i18n="step2_title"></h3>
+              <p data-i18n="step2_text"></p>
             </article>
             <article class="step">
               <span class="step-index">3</span>
-              <h3>Читайте в удовольствие</h3>
-              <p>Сравнивайте абзацы на лету и учите живую лексику прямо в контексте сюжета.</p>
+              <h3 data-i18n="step3_title"></h3>
+              <p data-i18n="step3_text"></p>
             </article>
           </div>
         </div>
@@ -425,19 +505,19 @@
 
       <section class="section">
         <div class="container fade-in">
-          <h2>Почему Unfolda работает лучше</h2>
+          <h2 data-i18n="features_title"></h2>
           <div class="feature-grid">
             <article class="card">
-              <h3>Умный AI-перевод</h3>
-              <p>Это не сухой машинный перевод. Система сохраняет идиомы, юмор и стиль автора.</p>
+              <h3 data-i18n="f1_title"></h3>
+              <p data-i18n="f1_text"></p>
             </article>
             <article class="card">
-              <h3>Тройка языков</h3>
-              <p>Идеально для жизни в Сербии: качайте английский для работы и сербский для ежедневной коммуникации.</p>
+              <h3 data-i18n="f2_title"></h3>
+              <p data-i18n="f2_text"></p>
             </article>
             <article class="card">
-              <h3>Ваш контент</h3>
-              <p>Вы не привязаны к встроенной библиотеке. Читайте то, что купили или скачали сами.</p>
+              <h3 data-i18n="f3_title"></h3>
+              <p data-i18n="f3_text"></p>
             </article>
           </div>
         </div>
@@ -445,19 +525,19 @@
 
       <section class="section">
         <div class="container fade-in">
-          <h2>Для кого это?</h2>
+          <h2 data-i18n="audience_title"></h2>
           <div class="audience-grid">
             <article class="card">
-              <h3>Для экспатов</h3>
-              <p>Быстрое погружение в языковую среду Сербии или англоязычного мира через реальный контент.</p>
+              <h3 data-i18n="a1_title"></h3>
+              <p data-i18n="a1_text"></p>
             </article>
             <article class="card">
-              <h3>Для студентов и профи</h3>
-              <p>Чтение профессиональной литературы без потери смыслов и постоянных пауз на перевод.</p>
+              <h3 data-i18n="a2_title"></h3>
+              <p data-i18n="a2_text"></p>
             </article>
             <article class="card">
-              <h3>Для книголюбов</h3>
-              <p>Наслаждение языком оригинала без чувства вины за «подглядывание» в перевод.</p>
+              <h3 data-i18n="a3_title"></h3>
+              <p data-i18n="a3_text"></p>
             </article>
           </div>
         </div>
@@ -466,35 +546,282 @@
       <section class="section section-cta" id="cta">
         <div class="container">
           <div class="cta-wrap fade-in">
-            <h2>Откройте новую главу в изучении языков.</h2>
-            <p>Сделайте чтение в оригинале своей ежедневной привычкой уже сегодня.</p>
+            <h2 data-i18n="cta_title"></h2>
+            <p data-i18n="cta_text"></p>
             <div class="store-buttons">
-              <a class="btn js-track" data-track="download_appstore" href="https://apps.apple.com" target="_blank" rel="noopener noreferrer"
-                >Скачать в App Store</a
-              >
+              <a class="btn js-track" data-track="download_appstore" href="https://apps.apple.com" target="_blank" rel="noopener noreferrer" data-i18n="cta_appstore"></a>
               <a
                 class="btn secondary js-track"
                 data-track="download_google_play"
                 href="https://play.google.com/store"
                 target="_blank"
                 rel="noopener noreferrer"
-                >Скачать в Google Play</a
-              >
+                data-i18n="cta_google_play"></a>
             </div>
-            <p class="footer-note">© <span id="year"></span> Unfolda. Read more. Learn naturally.</p>
+            <p class="footer-note"><span data-i18n="footer_note"></span> © <span id="year"></span> Unfolda.</p>
           </div>
         </div>
       </section>
     </main>
 
     <script>
+      const METRIKA_COUNTER_ID = 00000000;
+      const TEXTS = {
+        ru: {
+          meta_title: "Unfolda — Читайте любимые книги в оригинале",
+          meta_description:
+            "Unfolda помогает читать книги в оригинале через параллельные абзацы: загружайте EPUB/FB2/PDF и изучайте английский и сербский без переключений в переводчики.",
+          meta_og_title: "Читайте любимые книги в оригинале с Unfolda",
+          meta_og_description:
+            "Загружайте свои книги и читайте по методу параллельных абзацев. Учите языки естественно, без боли и постоянных переключений.",
+          theme_toggle_dark: "Светлая тема",
+          theme_toggle_light: "Темная тема",
+          hero_eyebrow: "Чтение без словарей и боли",
+          hero_title: "Читайте любимые книги в оригинале. Понимайте каждое слово.",
+          hero_subtitle:
+            "Загружайте свои e-pub книги и читайте по методу параллельных абзацев. Учите английский и сербский языки естественно, не отвлекаясь на переводчики.",
+          hero_cta: "Начать читать бесплатно",
+          hero_site: "Открыть сайт Unfolda",
+          mockup_l1: "ENGLISH",
+          mockup_p1: "“She had not known the weight of silence until she left home and heard her own steps in a new city.”",
+          mockup_l2: "РУССКИЙ",
+          mockup_p2: "«Она не знала веса тишины, пока не покинула дом и не услышала собственные шаги в новом городе».",
+          problem_title: "Хватит гуглить каждое слово",
+          problem_text:
+            "Учить язык по учебникам скучно, а читать книги в оригинале — тяжело. Постоянно переключаться между читалкой и переводчиком убивает все удовольствие от сюжета.",
+          solution_prefix: "Решение Unfolda:",
+          solution_text:
+            "Вы просто загружаете свою книгу. Приложение разбивает её на смысловые блоки и дает перевод абзац в абзац. Вы остаетесь в потоке чтения, а мозг запоминает контекст.",
+          how_title: "Как это работает",
+          step1_title: "Загрузите свою книгу",
+          step1_text: "Поддерживаем EPUB/FB2/PDF, чтобы начать можно было сразу с вашей текущей библиотеки.",
+          step2_title: "Выберите пару языков",
+          step2_text: "Английский, русский или сербский в любых комбинациях под вашу цель и уровень.",
+          step3_title: "Читайте в удовольствие",
+          step3_text: "Сравнивайте абзацы на лету и учите живую лексику прямо в контексте сюжета.",
+          features_title: "Почему Unfolda работает лучше",
+          f1_title: "Умный AI-перевод",
+          f1_text: "Это не сухой машинный перевод. Система сохраняет идиомы, юмор и стиль автора.",
+          f2_title: "Тройка языков",
+          f2_text: "Идеально для жизни в Сербии: качайте английский для работы и сербский для ежедневной коммуникации.",
+          f3_title: "Ваш контент",
+          f3_text: "Вы не привязаны к встроенной библиотеке. Читайте то, что купили или скачали сами.",
+          audience_title: "Для кого это?",
+          a1_title: "Для экспатов",
+          a1_text: "Быстрое погружение в языковую среду Сербии или англоязычного мира через реальный контент.",
+          a2_title: "Для студентов и профи",
+          a2_text: "Чтение профессиональной литературы без потери смыслов и постоянных пауз на перевод.",
+          a3_title: "Для книголюбов",
+          a3_text: "Наслаждение языком оригинала без чувства вины за «подглядывание» в перевод.",
+          cta_title: "Откройте новую главу в изучении языков.",
+          cta_text: "Сделайте чтение в оригинале своей ежедневной привычкой уже сегодня.",
+          cta_appstore: "Скачать в App Store",
+          cta_google_play: "Скачать в Google Play",
+          footer_note: "Read more. Learn naturally.",
+        },
+        sr: {
+          meta_title: "Unfolda — Čitajte omiljene knjige u originalu",
+          meta_description:
+            "Unfolda vam pomaže da čitate knjige u originalu kroz paralelne pasuse. Učite engleski i srpski prirodno, bez stalnog prebacivanja na prevodioce.",
+          meta_og_title: "Čitajte omiljene knjige u originalu uz Unfoldu",
+          meta_og_description:
+            "Otpremite svoje knjige i čitajte metodom paralelnih pasusa. Učite jezike prirodno i ostanite u toku čitanja.",
+          theme_toggle_dark: "Svetla tema",
+          theme_toggle_light: "Tamna tema",
+          hero_eyebrow: "Čitanje bez rečnika i muke",
+          hero_title: "Čitajte omiljene knjige u originalu. Razumite svaku reč.",
+          hero_subtitle:
+            "Otpremite svoje e-pub knjige i čitajte metodom paralelnih pasusa. Učite engleski i srpski prirodno, bez ometanja prevodiocima.",
+          hero_cta: "Počni da čitaš besplatno",
+          hero_site: "Otvori Unfolda sajt",
+          mockup_l1: "ENGLISH",
+          mockup_p1: "“She had not known the weight of silence until she left home and heard her own steps in a new city.”",
+          mockup_l2: "SRPSKI",
+          mockup_p2: "„Nije znala težinu tišine dok nije otišla od kuće i čula sopstvene korake u novom gradu.“",
+          problem_title: "Dosta je guglanja svake reči",
+          problem_text:
+            "Učenje jezika iz udžbenika je dosadno, a čitanje knjiga u originalu je teško. Stalno prebacivanje između čitača i prevodioca ubija uživanje u priči.",
+          solution_prefix: "Rešenje Unfolda:",
+          solution_text:
+            "Samo otpremite svoju knjigu. Aplikacija je deli na smislene blokove i daje prevod pasus po pasus. Ostajete u toku čitanja, a mozak pamti kontekst.",
+          how_title: "Kako funkcioniše",
+          step1_title: "Otpremite svoju knjigu",
+          step1_text: "Podržani su EPUB/FB2/PDF, pa možete odmah krenuti sa svojom bibliotekom.",
+          step2_title: "Izaberite par jezika",
+          step2_text: "Engleski, ruski ili srpski u bilo kojoj kombinaciji prema vašem cilju i nivou.",
+          step3_title: "Čitajte sa uživanjem",
+          step3_text: "Upoređujte pasuse u hodu i učite živu leksiku direktno iz konteksta priče.",
+          features_title: "Zašto Unfolda radi bolje",
+          f1_title: "Pametan AI prevod",
+          f1_text: "Nije suv mašinski prevod. Sistem čuva idiome, humor i stil autora.",
+          f2_title: "Tri jezika",
+          f2_text: "Idealno za život na Balkanu: jačajte engleski za posao i srpski za svakodnevicu.",
+          f3_title: "Vaš sadržaj",
+          f3_text: "Niste vezani za ugrađenu biblioteku. Čitajte ono što ste kupili ili sami preuzeli.",
+          audience_title: "Za koga je ovo?",
+          a1_title: "Za ekspate",
+          a1_text: "Brzo uranjanje u jezičko okruženje Srbije ili engleskog govornog područja kroz stvarni sadržaj.",
+          a2_title: "Za studente i profesionalce",
+          a2_text: "Čitanje stručne literature bez gubitka smisla i stalnih pauza za prevod.",
+          a3_title: "Za ljubitelje knjiga",
+          a3_text: "Uživanje u jeziku originala bez osećaja krivice zbog „pogleda“ u prevod.",
+          cta_title: "Otvorite novo poglavlje u učenju jezika.",
+          cta_text: "Pretvorite čitanje u originalu u svakodnevnu naviku već danas.",
+          cta_appstore: "Preuzmi sa App Store",
+          cta_google_play: "Preuzmi sa Google Play",
+          footer_note: "Read more. Learn naturally.",
+        },
+        en: {
+          meta_title: "Unfolda — Read your favorite books in original languages",
+          meta_description:
+            "Upload your EPUB/FB2/PDF books and read with parallel paragraphs. Learn English, Serbian, and Russian naturally without switching to translators.",
+          meta_og_title: "Read your favorite books in original languages with Unfolda",
+          meta_og_description:
+            "Upload your own books and read paragraph-by-paragraph with smart translation. Stay in the reading flow and learn naturally.",
+          theme_toggle_dark: "Light theme",
+          theme_toggle_light: "Dark theme",
+          hero_eyebrow: "Reading without dictionaries and friction",
+          hero_title: "Read your favorite books in original languages. Understand every word.",
+          hero_subtitle:
+            "Upload your e-pub books and read with parallel paragraphs. Learn English and Serbian naturally, without distractions from translators.",
+          hero_cta: "Start reading for free",
+          hero_site: "Open Unfolda website",
+          mockup_l1: "ENGLISH",
+          mockup_p1: "“She had not known the weight of silence until she left home and heard her own steps in a new city.”",
+          mockup_l2: "RUSSIAN",
+          mockup_p2: "“She did not know the weight of silence until she left home and heard her own steps in a new city.”",
+          problem_title: "Stop googling every word",
+          problem_text:
+            "Studying from textbooks is boring, and reading in original language is hard. Constantly switching between a reader and translator kills the joy of the story.",
+          solution_prefix: "Unfolda solution:",
+          solution_text:
+            "Just upload your book. The app breaks it into meaningful blocks and gives a paragraph-by-paragraph translation. You stay in flow while your brain learns from context.",
+          how_title: "How it works",
+          step1_title: "Upload your book",
+          step1_text: "Supports EPUB/FB2/PDF so you can start right away with your own library.",
+          step2_title: "Choose a language pair",
+          step2_text: "English, Russian, or Serbian in any combination that matches your goals.",
+          step3_title: "Read with pleasure",
+          step3_text: "Compare paragraphs on the fly and absorb living vocabulary in real context.",
+          features_title: "Why Unfolda works better",
+          f1_title: "Smart AI translation",
+          f1_text: "Not dry machine output. The system preserves idioms, humor, and author voice.",
+          f2_title: "Three languages",
+          f2_text: "Perfect if you live in the Balkans: boost English for work and Serbian for daily life.",
+          f3_title: "Your own content",
+          f3_text: "You are not limited to an in-app library. Read what you already bought or downloaded.",
+          audience_title: "Who is it for?",
+          a1_title: "For expats",
+          a1_text: "Fast immersion into Serbian or English-speaking environments through real content.",
+          a2_title: "For students and professionals",
+          a2_text: "Read professional literature without losing meaning or pausing for translations.",
+          a3_title: "For book lovers",
+          a3_text: "Enjoy original language reading without guilt for checking translation when needed.",
+          cta_title: "Open a new chapter in language learning.",
+          cta_text: "Make reading in original language your daily habit today.",
+          cta_appstore: "Download on App Store",
+          cta_google_play: "Get it on Google Play",
+          footer_note: "Read more. Learn naturally.",
+        },
+      };
+
+      const COUNTRY_LANG_MAP = {
+        RU: "ru",
+        RS: "sr",
+        ME: "sr",
+        BA: "sr",
+        HR: "sr",
+        SI: "sr",
+      };
+
       const trackEvent = (eventName, params = {}) => {
         if (typeof window.gtag === "function") {
           window.gtag("event", eventName, params);
         }
-        if (typeof window.ym === "function") {
-          window.ym(00000000, "reachGoal", eventName);
+        if (typeof window.ym === "function" && METRIKA_COUNTER_ID) {
+          window.ym(METRIKA_COUNTER_ID, "reachGoal", eventName);
         }
+      };
+
+      const setMeta = (lang) => {
+        const bundle = TEXTS[lang] || TEXTS.en;
+        document.title = bundle.meta_title;
+        const desc = document.querySelector('meta[name="description"]');
+        const ogTitle = document.querySelector('meta[property="og:title"]');
+        const ogDesc = document.querySelector('meta[property="og:description"]');
+        const twTitle = document.querySelector('meta[name="twitter:title"]');
+        const twDesc = document.querySelector('meta[name="twitter:description"]');
+        if (desc) desc.setAttribute("content", bundle.meta_description);
+        if (ogTitle) ogTitle.setAttribute("content", bundle.meta_og_title);
+        if (ogDesc) ogDesc.setAttribute("content", bundle.meta_og_description);
+        if (twTitle) twTitle.setAttribute("content", bundle.meta_og_title);
+        if (twDesc) twDesc.setAttribute("content", bundle.meta_og_description);
+      };
+
+      const applyLanguage = (lang, shouldPersist = true) => {
+        const bundle = TEXTS[lang] || TEXTS.en;
+        document.documentElement.lang = lang;
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          const key = el.getAttribute("data-i18n");
+          if (bundle[key]) {
+            el.textContent = bundle[key];
+          }
+        });
+        setMeta(lang);
+        document.querySelectorAll(".js-lang").forEach((btn) => {
+          btn.setAttribute("aria-pressed", String(btn.dataset.lang === lang));
+        });
+        if (shouldPersist) {
+          localStorage.setItem("unfolda_lang", lang);
+        }
+        updateThemeToggleText();
+      };
+
+      const applyTheme = (theme, shouldPersist = true) => {
+        const resolvedTheme = theme === "light" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", resolvedTheme);
+        const themeButton = document.getElementById("themeToggle");
+        if (themeButton) {
+          themeButton.setAttribute("aria-pressed", String(resolvedTheme === "light"));
+        }
+        if (shouldPersist) {
+          localStorage.setItem("unfolda_theme", resolvedTheme);
+        }
+        updateThemeToggleText();
+      };
+
+      const updateThemeToggleText = () => {
+        const currentLang = document.documentElement.lang || "en";
+        const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+        const bundle = TEXTS[currentLang] || TEXTS.en;
+        const themeButton = document.getElementById("themeToggle");
+        if (!themeButton) return;
+        themeButton.textContent = currentTheme === "dark" ? bundle.theme_toggle_dark : bundle.theme_toggle_light;
+      };
+
+      const detectCountryCode = async () => {
+        try {
+          const response = await fetch("https://ipapi.co/json/");
+          if (!response.ok) return null;
+          const data = await response.json();
+          if (data && typeof data.country_code === "string") {
+            return data.country_code.toUpperCase();
+          }
+          return null;
+        } catch {
+          return null;
+        }
+      };
+
+      const initLanguage = async () => {
+        const persisted = localStorage.getItem("unfolda_lang");
+        if (persisted && TEXTS[persisted]) {
+          applyLanguage(persisted, false);
+          return;
+        }
+        const countryCode = await detectCountryCode();
+        const geoLang = (countryCode && COUNTRY_LANG_MAP[countryCode]) || "en";
+        applyLanguage(geoLang, false);
       };
 
       document.querySelectorAll(".js-track").forEach((element) => {
@@ -506,6 +833,30 @@
           });
         });
       });
+
+      document.querySelectorAll(".js-lang").forEach((button) => {
+        button.addEventListener("click", () => {
+          const selectedLang = button.dataset.lang || "en";
+          applyLanguage(selectedLang);
+          trackEvent("language_switch", { language: selectedLang });
+        });
+      });
+
+      const persistedTheme = localStorage.getItem("unfolda_theme");
+      const systemPrefersLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+      applyTheme(persistedTheme || (systemPrefersLight ? "light" : "dark"), false);
+
+      const themeToggle = document.getElementById("themeToggle");
+      if (themeToggle) {
+        themeToggle.addEventListener("click", () => {
+          const current = document.documentElement.getAttribute("data-theme") || "dark";
+          const next = current === "dark" ? "light" : "dark";
+          applyTheme(next);
+          trackEvent("theme_switch", { theme: next });
+        });
+      }
+
+      initLanguage();
 
       document.getElementById("year").textContent = String(new Date().getFullYear());
 
