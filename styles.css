@@ -146,7 +146,7 @@ h3 {
 }
 
 h1 {
-  font-size: clamp(30px, 7vw, 58px);
+  font-size: clamp(32px, 5vw, 52px);
 }
 
 h2 {
@@ -210,6 +210,10 @@ html[data-theme="light"] .eyebrow {
 
 .hero-copy h1 {
   text-shadow: 0 0 0 transparent, 0 8px 28px rgba(22, 30, 60, 0.25);
+  margin-top: 12px;
+  max-width: 12.5ch;
+  line-height: 1.08;
+  text-wrap: balance;
 }
 
 .hero-copy p {
@@ -640,6 +644,10 @@ html[data-theme="light"] .faq-item p {
     grid-template-columns: 1.15fr 0.85fr;
     align-items: center;
     gap: 40px;
+  }
+
+  .hero-copy h1 {
+    max-width: 11.5ch;
   }
 
   .hero-visual {
