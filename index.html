@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unfolda — Read in original languages with parallel context</title>
+    <meta
+      id="meta-description"
+      name="description"
+      content="Unfolda is a web service for reading EPUB books in original languages with parallel paragraphs. Learn English, Spanish, Serbian, and Russian naturally."
+    />
+    <meta id="meta-robots" name="robots" content="index,follow" />
+    <meta id="meta-og-title" property="og:title" content="Unfolda — Read in original languages with parallel context" />
+    <meta
+      id="meta-og-description"
+      property="og:description"
+      content="Read EPUB books in original languages and understand more with contextual parallel paragraphs."
+    />
+    <meta id="meta-og-type" property="og:type" content="website" />
+    <meta id="meta-twitter-card" name="twitter:card" content="summary_large_image" />
+    <meta
+      id="meta-twitter-title"
+      name="twitter:title"
+      content="Unfolda — Read in original languages with parallel context"
+    />
+    <meta
+      id="meta-twitter-description"
+      name="twitter:description"
+      content="Read EPUB books in original languages and understand more with contextual parallel paragraphs."
+    />
+    <link rel="stylesheet" href="./styles.css?v=20260326" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="#hero" aria-label="Unfolda">
+          <span class="brand-dot" aria-hidden="true"></span>
+          <span>Unfolda</span>
+        </a>
+        <div class="topbar-controls">
+          <div class="lang-switcher" role="group" aria-label="Language switcher">
+            <button type="button" class="lang-btn" data-lang="ru">RU</button>
+            <button type="button" class="lang-btn" data-lang="sr">SR</button>
+            <button type="button" class="lang-btn" data-lang="en">EN</button>
+            <button type="button" class="lang-btn" data-lang="es">ES</button>
+          </div>
+          <button id="theme-toggle" class="theme-toggle" type="button" aria-live="polite">
+            <span data-i18n="nav.themeDark">Dark</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section hero" id="hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow" data-i18n="hero.eyebrow">Web service for language learners</p>
+            <h1 data-i18n="hero.title">Read your favorite books in original languages and understand more.</h1>
+            <p class="hero-subtitle" data-i18n="hero.subtitle">
+              Unfolda helps you learn naturally with contextual parallel paragraphs. Currently supports EPUB.
+            </p>
+            <div class="hero-chips">
+              <span class="chip chip-highlight" data-i18n="hero.epubBadge">EPUB only (for now)</span>
+              <span class="chip" data-i18n="hero.languagesBadge">Learning languages: English, Spanish, Serbian, Russian</span>
+            </div>
+            <div class="hero-actions">
+              <a
+                class="btn btn-primary"
+                href="https://unfolda.ai"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-track="hero-primary-cta"
+                data-i18n="hero.primaryCta"
+                >Start on web</a
+              >
+              <a class="btn btn-secondary" href="#how" data-track="hero-secondary-cta" data-i18n="hero.secondaryCta"
+                >How it works</a
+              >
+            </div>
+          </div>
+          <aside class="mascot-card" aria-label="Mascot">
+            <div class="mascot-emoji" aria-hidden="true">🦉</div>
+            <p class="mascot-title" data-i18n="hero.mascotTitle">Uno the Owl — Your reading companion.</p>
+            <p class="mascot-text" data-i18n="hero.mascotText">
+              Read side by side, keep context, and stay focused on the story.
+            </p>
+            <div class="preview-card">
+              <p class="preview-title" data-i18n="hero.previewTitle">Parallel paragraph preview</p>
+              <p class="preview-line" data-i18n="hero.previewOriginal">Original: She opened the old book and smiled.</p>
+              <p class="preview-line" data-i18n="hero.previewLearning">Learning: Она открыла старую книгу и улыбнулась.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section section-soft" id="proof">
+        <div class="container">
+          <h2 data-i18n="proof.title">Built for focused reading and measurable progress</h2>
+          <p class="section-lead" data-i18n="proof.lead">
+            Conversion-ready proof points that set expectations clearly: web service, EPUB support, and multilingual learning focus.
+          </p>
+          <div class="card-grid metrics-grid">
+            <article class="card metric-card">
+              <p class="metric-value">4</p>
+              <p class="metric-label" data-i18n="proof.metric1">Learning languages supported</p>
+            </article>
+            <article class="card metric-card">
+              <p class="metric-value">100%</p>
+              <p class="metric-label" data-i18n="proof.metric2">Web experience (no app-store required)</p>
+            </article>
+            <article class="card metric-card">
+              <p class="metric-value">EPUB</p>
+              <p class="metric-label" data-i18n="proof.metric3">Current input format in production</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="problem-solution">
+        <div class="container two-col">
+          <article class="card card-problem">
+            <h2 data-i18n="problem.title">The problem</h2>
+            <p data-i18n="problem.body">
+              Language learners constantly leave the book to translate words and lose context, rhythm, and motivation.
+            </p>
+          </article>
+          <article class="card card-solution">
+            <h2 data-i18n="solution.title">The solution</h2>
+            <p data-i18n="solution.body">
+              Unfolda shows contextual parallel paragraphs so you can understand meaning in flow and keep reading in the original language.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section section-soft" id="how">
+        <div class="container">
+          <h2 data-i18n="how.title">How it works</h2>
+          <div class="card-grid">
+            <article class="card step-card">
+              <p class="step-index">01</p>
+              <h3 data-i18n="how.step1Title">Open Unfolda on the web</h3>
+              <p data-i18n="how.step1Body">Go to unfolda.ai and start instantly in your browser.</p>
+            </article>
+            <article class="card step-card">
+              <p class="step-index">02</p>
+              <h3 data-i18n="how.step2Title">Upload your EPUB book</h3>
+              <p data-i18n="how.step2Body">Unfolda currently supports EPUB input for smooth reading sessions.</p>
+            </article>
+            <article class="card step-card">
+              <p class="step-index">03</p>
+              <h3 data-i18n="how.step3Title">Read with parallel context</h3>
+              <p data-i18n="how.step3Body">Learn English, Spanish, Serbian, or Russian with side-by-side contextual help.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="features">
+        <div class="container">
+          <h2 data-i18n="features.title">Why readers choose Unfolda</h2>
+          <div class="card-grid">
+            <article class="card">
+              <h3 data-i18n="features.item1Title">Context-first understanding</h3>
+              <p data-i18n="features.item1Body">Parallel paragraphs keep meaning intact without interrupting your reading flow.</p>
+            </article>
+            <article class="card">
+              <h3 data-i18n="features.item2Title">Multilingual interface</h3>
+              <p data-i18n="features.item2Body">Use the landing in RU, SR, EN, or ES with instant manual switching.</p>
+            </article>
+            <article class="card">
+              <h3 data-i18n="features.item3Title">Light and dark themes</h3>
+              <p data-i18n="features.item3Body">Choose the visual mode you prefer and keep your selection saved.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-soft" id="audience">
+        <div class="container">
+          <h2 data-i18n="audience.title">Who this is for</h2>
+          <div class="card-grid">
+            <article class="card">
+              <h3 data-i18n="audience.item1Title">Expats and relocators</h3>
+              <p data-i18n="audience.item1Body">Adapt to a new language environment while reading books you enjoy.</p>
+            </article>
+            <article class="card">
+              <h3 data-i18n="audience.item2Title">Students and professionals</h3>
+              <p data-i18n="audience.item2Body">Read domain literature in original language with better comprehension.</p>
+            </article>
+            <article class="card">
+              <h3 data-i18n="audience.item3Title">Book lovers</h3>
+              <p data-i18n="audience.item3Body">Enjoy original-language reading with less friction and more clarity.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="faq">
+        <div class="container">
+          <h2 data-i18n="faq.title">FAQ</h2>
+          <div class="faq-list">
+            <details class="faq-item" data-faq-id="formats">
+              <summary data-i18n="faq.q1">What file formats are supported now?</summary>
+              <p data-i18n="faq.a1">At this stage Unfolda supports EPUB only. Other formats are not available yet.</p>
+            </details>
+            <details class="faq-item" data-faq-id="platform">
+              <summary data-i18n="faq.q2">Is this a mobile app or a web service?</summary>
+              <p data-i18n="faq.a2">Unfolda is a web service. You can start directly at https://unfolda.ai.</p>
+            </details>
+            <details class="faq-item" data-faq-id="languages">
+              <summary data-i18n="faq.q3">Which learning languages are available?</summary>
+              <p data-i18n="faq.a3">Current learning languages: English, Spanish, Serbian, and Russian.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-cta" id="final-cta">
+        <div class="container cta-wrap">
+          <h2 data-i18n="finalCta.title">Ready to read and learn naturally?</h2>
+          <p data-i18n="finalCta.subtitle">Start with EPUB books on the Unfolda web service.</p>
+          <a
+            class="btn btn-primary btn-large"
+            href="https://unfolda.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-track="final-web-cta"
+            data-i18n="finalCta.button"
+            >Go to unfolda.ai</a
+          >
+        </div>
+      </section>
+    </main>
+
+    <div class="language-notice is-hidden" id="language-notice" role="status" aria-live="polite">
+      <p id="language-notice-text" data-i18n="notice.text">Language selected automatically. You can change it anytime.</p>
+      <div class="language-notice-actions">
+        <button id="notice-change" type="button" class="btn btn-secondary btn-small" data-i18n="notice.change">Change language</button>
+        <button id="notice-dismiss" type="button" class="btn btn-ghost btn-small" data-i18n="notice.dismiss">Dismiss</button>
+      </div>
+    </div>
+
+    <a
+      class="sticky-mobile-cta"
+      href="https://unfolda.ai"
+      target="_blank"
+      rel="noopener noreferrer"
+      data-track="sticky-cta"
+      data-i18n="stickyCta"
+      >Start on web</a
+    >
+
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+    </script>
+    <script src="./locales.js?v=20260326" defer></script>
+    <script src="./app.js?v=20260326" defer></script>
+  </body>
+</html>
