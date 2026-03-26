@@ -45,7 +45,7 @@
             <button type="button" class="lang-btn" data-lang="es">ES</button>
           </div>
           <button id="theme-toggle" class="theme-toggle" type="button" aria-live="polite">
-            <span data-i18n="nav.themeDark">Dark</span>
+            <span id="theme-toggle-label" data-i18n="nav.themeDark">Dark mode</span>
           </button>
         </div>
       </div>
@@ -254,9 +254,10 @@
 
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag() {
+      window.unfoldaGtagStub = function () {
         window.dataLayer.push(arguments);
-      }
+      };
+      window.gtag = window.gtag || window.unfoldaGtagStub;
     </script>
     <script src="./locales.js?v=20260326" defer></script>
     <script src="./app.js?v=20260326" defer></script>

@@ -26,7 +26,7 @@
   function trackEvent(eventName, payload) {
     var eventPayload = Object.assign({ event: eventName }, payload || {});
 
-    if (typeof window.gtag === "function") {
+    if (typeof window.gtag === "function" && window.UNFOLDA_GTAG_READY === true) {
       window.gtag("event", eventName, payload || {});
     }
 
@@ -34,9 +34,9 @@
       window.dataLayer.push(eventPayload);
     }
 
-    if (window.ym && typeof window.ym === "function") {
+    if (window.ym && typeof window.ym === "function" && window.YM_COUNTER_ID) {
       // Counter ID is intentionally external; this call keeps integration point ready.
-      window.ym(window.YM_COUNTER_ID || 0, "reachGoal", eventName, payload || {});
+      window.ym(window.YM_COUNTER_ID, "reachGoal", eventName, payload || {});
     }
   }
 
@@ -165,8 +165,16 @@
       var locale = locales[language] || locales.en || {};
       var darkLabel = getNestedValue(locale, "nav.themeDark") || "Dark";
       var lightLabel = getNestedValue(locale, "nav.themeLight") || "Light";
-      toggle.textContent = normalized === "dark" ? lightLabel : darkLabel;
-      toggle.setAttribute("aria-label", toggle.textContent);
+      var label = normalized === "dark" ? lightLabel : darkLabel;
+      var labelNode = toggle.querySelector("[data-i18n='nav.themeDark']");
+      if (!labelNode) {
+        labelNode = document.createElement("span");
+        labelNode.setAttribute("data-i18n", "nav.themeDark");
+        toggle.textContent = "";
+        toggle.appendChild(labelNode);
+      }
+      labelNode.textContent = label;
+      toggle.setAttribute("aria-label", label);
     }
   }
 
@@ -193,7 +201,11 @@
     if (changeButton) {
       changeButton.addEventListener("click", function () {
         scrollToTopWithOffset();
-        trackEvent("language_notice_action", { action: "change", current_lang: language });
+        var activeButton = document.querySelector(".lang-btn.is-active") || document.querySelector(".lang-btn");
+        if (activeButton && typeof activeButton.focus === "function") {
+          activeButton.focus();
+        }
+        trackEvent("language_notice_action", { action: "change", lang: language });
       });
     }
 
@@ -201,7 +213,7 @@
       dismissButton.addEventListener("click", function () {
         safeSetStorage(STORAGE_KEYS.noticeDismissed, "1");
         notice.classList.add("is-hidden");
-        trackEvent("language_notice_action", { action: "dismiss", current_lang: language });
+        trackEvent("language_notice_action", { action: "dismiss", lang: language });
       });
     }
   }
