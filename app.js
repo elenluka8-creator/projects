@@ -21,6 +21,7 @@
     hr: "sr",
     bs: "sr",
     sl: "sr",
+    es: "es",
     en: "en",
   };
 

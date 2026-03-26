@@ -84,6 +84,7 @@ a {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .chip-ghost {
@@ -206,7 +207,7 @@ html[data-theme="light"] .eyebrow {
 html[data-theme="light"] .btn.secondary {
   color: #1f2a51;
   border-color: rgba(31, 42, 81, 0.28);
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.96);
 }
 
 .hero-proof {
@@ -532,6 +533,9 @@ html[data-theme="light"] .mascot-card {
   border-color: rgba(26, 33, 68, 0.16);
 }
 
+html[data-theme="light"] h1,
+html[data-theme="light"] h2,
+html[data-theme="light"] h3,
 html[data-theme="light"] .proof-grid .card h3,
 html[data-theme="light"] .feature-grid .card h3,
 html[data-theme="light"] .audience-grid .card h3,
@@ -549,6 +553,11 @@ html[data-theme="light"] .lang-notice-text,
 html[data-theme="light"] .cta-wrap p,
 html[data-theme="light"] .footer-note {
   color: #3b466f;
+}
+
+html[data-theme="light"] .btn.secondary:hover {
+  background: #ffffff;
+  box-shadow: 0 8px 18px rgba(31, 42, 81, 0.12);
 }
 
 html[data-theme="light"] .eyebrow {
