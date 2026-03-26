@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unfolda — Читайте любимые книги в оригинале</title>
+    <meta
+      name="description"
+      content="Unfolda помогает читать книги в оригинале через параллельные абзацы: загружайте EPUB/FB2/PDF и изучайте английский и сербский без переключений в переводчики."
+    />
+    <meta
+      name="keywords"
+      content="Unfolda, изучение языков, чтение в оригинале, английский, сербский, параллельный перевод, EdTech"
+    />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Unfolda" />
+    <meta property="og:title" content="Читайте любимые книги в оригинале с Unfolda" />
+    <meta
+      property="og:description"
+      content="Загружайте свои книги и читайте по методу параллельных абзацев. Учите языки естественно, без боли и постоянных переключений."
+    />
+    <meta property="og:url" content="https://www.unfolda.ai/en/jobs" />
+    <meta property="og:image" content="https://www.unfolda.ai/og-image.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Unfolda — читайте в оригинале и понимайте каждое слово" />
+    <meta
+      name="twitter:description"
+      content="Параллельные абзацы, умный AI-перевод и ваш собственный контент в одном приложении."
+    />
+    <meta name="twitter:image" content="https://www.unfolda.ai/og-image.jpg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Google Analytics 4: замените G-XXXXXXXXXX на ваш measurement ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-XXXXXXXXXX");
+    </script>
+
+    <!-- Yandex Metrika: замените 00000000 на ваш счетчик -->
+    <script>
+      (function (m, e, t, r, i, k, a) {
+        m[i] =
+          m[i] ||
+          function () {
+            (m[i].a = m[i].a || []).push(arguments);
+          };
+        m[i].l = 1 * new Date();
+        for (var j = 0; j < document.scripts.length; j++) {
+          if (document.scripts[j].src === r) {
+            return;
+          }
+        }
+        (k = e.createElement(t)), (a = e.getElementsByTagName(t)[0]), (k.async = 1), (k.src = r), a.parentNode.insertBefore(k, a);
+      })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+      ym(00000000, "init", {
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
+      });
+    </script>
+    <noscript>
+      <div><img src="https://mc.yandex.ru/watch/00000000" style="position: absolute; left: -9999px" alt="" /></div>
+    </noscript>
+
+    <style>
+      :root {
+        --bg: #0b1020;
+        --bg-soft: #141a31;
+        --surface: #1a2040;
+        --text: #f5f8ff;
+        --muted: #b4bfdc;
+        --primary: #6f7bff;
+        --primary-2: #5cd5ff;
+        --card-border: rgba(255, 255, 255, 0.12);
+        --radius: 20px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        background: radial-gradient(circle at top right, rgba(111, 123, 255, 0.22), transparent 40%),
+          radial-gradient(circle at top left, rgba(92, 213, 255, 0.15), transparent 35%), var(--bg);
+        color: var(--text);
+        line-height: 1.55;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .container {
+        width: min(1120px, 92%);
+        margin: 0 auto;
+      }
+
+      .section {
+        padding: 64px 0;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--card-border);
+        background: rgba(255, 255, 255, 0.04);
+        color: #d6ddff;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0 0 16px;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+      }
+
+      h1 {
+        font-size: clamp(30px, 7vw, 58px);
+      }
+
+      h2 {
+        font-size: clamp(24px, 5vw, 42px);
+      }
+
+      p {
+        margin: 0;
+        color: var(--muted);
+        font-size: clamp(16px, 3.8vw, 18px);
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 50px;
+        padding: 0 22px;
+        border-radius: 12px;
+        border: 1px solid transparent;
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        color: #fff;
+        font-weight: 700;
+        font-size: 15px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(109, 128, 255, 0.25);
+      }
+
+      .btn:active {
+        transform: translateY(0);
+      }
+
+      .btn.secondary {
+        background: transparent;
+        border-color: var(--card-border);
+      }
+
+      .hero {
+        padding-top: 28px;
+      }
+
+      .hero-grid {
+        display: grid;
+        gap: 28px;
+      }
+
+      .hero-copy p {
+        margin-top: 18px;
+      }
+
+      .hero-actions {
+        margin-top: 28px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .phone-mockup-wrap {
+        display: flex;
+        justify-content: center;
+      }
+
+      .phone-mockup {
+        width: min(320px, 100%);
+        border-radius: 34px;
+        border: 1px solid var(--card-border);
+        background: linear-gradient(180deg, #1d2448 0%, #141a33 100%);
+        padding: 18px 14px;
+        box-shadow: 0 30px 80px rgba(10, 13, 30, 0.7);
+      }
+
+      .phone-topbar {
+        width: 38%;
+        height: 6px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.25);
+        margin: 0 auto 14px;
+      }
+
+      .phone-card {
+        border: 1px solid var(--card-border);
+        border-radius: 14px;
+        padding: 12px;
+        background: rgba(255, 255, 255, 0.03);
+        margin-bottom: 10px;
+      }
+
+      .phone-card strong {
+        font-size: 12px;
+        color: #d9e0ff;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .phone-card p {
+        font-size: 14px;
+        color: #ecf0ff;
+      }
+
+      .highlight-box {
+        margin-top: 18px;
+        padding: 18px;
+        border-radius: 16px;
+        border: 1px solid var(--card-border);
+        background: rgba(92, 213, 255, 0.08);
+      }
+
+      .steps,
+      .feature-grid,
+      .audience-grid {
+        margin-top: 30px;
+        display: grid;
+        gap: 14px;
+      }
+
+      .step,
+      .card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius);
+        padding: 18px;
+      }
+
+      .step-index {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(111, 123, 255, 0.22);
+        border: 1px solid rgba(111, 123, 255, 0.4);
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .feature-grid .card h3,
+      .audience-grid .card h3 {
+        font-size: 19px;
+        margin-bottom: 10px;
+      }
+
+      .section-cta {
+        padding: 76px 0 82px;
+      }
+
+      .cta-wrap {
+        text-align: center;
+        padding: 30px 20px;
+        border-radius: 24px;
+        border: 1px solid var(--card-border);
+        background: linear-gradient(155deg, rgba(111, 123, 255, 0.22), rgba(92, 213, 255, 0.12));
+      }
+
+      .store-buttons {
+        margin-top: 24px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .fade-in {
+        opacity: 0;
+        transform: translateY(18px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+
+      .fade-in.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .footer-note {
+        margin-top: 18px;
+        font-size: 14px;
+      }
+
+      @media (min-width: 768px) {
+        .section {
+          padding: 82px 0;
+        }
+
+        .hero-grid {
+          grid-template-columns: 1.15fr 0.85fr;
+          align-items: center;
+          gap: 40px;
+        }
+
+        .steps {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .feature-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .audience-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="section hero">
+        <div class="container hero-grid">
+          <div class="hero-copy fade-in">
+            <span class="eyebrow">Чтение без словарей и боли</span>
+            <h1>Читайте любимые книги в оригинале. Понимайте каждое слово.</h1>
+            <p>
+              Загружайте свои e-pub книги и читайте по методу параллельных абзацев. Учите английский и сербский языки
+              естественно, не отвлекаясь на переводчики.
+            </p>
+            <div class="hero-actions">
+              <a class="btn js-track" data-track="hero_start_free" href="#cta">Начать читать бесплатно</a>
+              <a class="btn secondary js-track" data-track="hero_to_jobs" href="https://www.unfolda.ai/en/jobs">Открыть сайт Unfolda</a>
+            </div>
+          </div>
+
+          <div class="phone-mockup-wrap fade-in">
+            <div class="phone-mockup" aria-label="Интерфейс приложения Unfolda">
+              <div class="phone-topbar"></div>
+              <div class="phone-card">
+                <strong>ENGLISH</strong>
+                <p>
+                  “She had not known the weight of silence until she left home and heard her own steps in a new city.”
+                </p>
+              </div>
+              <div class="phone-card">
+                <strong>РУССКИЙ</strong>
+                <p>
+                  «Она не знала веса тишины, пока не покинула дом и не услышала собственные шаги в новом городе».
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container fade-in">
+          <h2>Хватит гуглить каждое слово</h2>
+          <p>
+            Учить язык по учебникам скучно, а читать книги в оригинале — тяжело. Постоянно переключаться между читалкой и
+            переводчиком убивает все удовольствие от сюжета.
+          </p>
+          <div class="highlight-box">
+            <p>
+              <strong style="color: #ffffff">Решение Unfolda:</strong> Вы просто загружаете свою книгу. Приложение разбивает
+              её на смысловые блоки и дает перевод абзац в абзац. Вы остаетесь в потоке чтения, а мозг запоминает контекст.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container fade-in">
+          <h2>Как это работает</h2>
+          <div class="steps">
+            <article class="step">
+              <span class="step-index">1</span>
+              <h3>Загрузите свою книгу</h3>
+              <p>Поддерживаем EPUB/FB2/PDF, чтобы начать можно было сразу с вашей текущей библиотеки.</p>
+            </article>
+            <article class="step">
+              <span class="step-index">2</span>
+              <h3>Выберите пару языков</h3>
+              <p>Английский, русский или сербский в любых комбинациях под вашу цель и уровень.</p>
+            </article>
+            <article class="step">
+              <span class="step-index">3</span>
+              <h3>Читайте в удовольствие</h3>
+              <p>Сравнивайте абзацы на лету и учите живую лексику прямо в контексте сюжета.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container fade-in">
+          <h2>Почему Unfolda работает лучше</h2>
+          <div class="feature-grid">
+            <article class="card">
+              <h3>Умный AI-перевод</h3>
+              <p>Это не сухой машинный перевод. Система сохраняет идиомы, юмор и стиль автора.</p>
+            </article>
+            <article class="card">
+              <h3>Тройка языков</h3>
+              <p>Идеально для жизни в Сербии: качайте английский для работы и сербский для ежедневной коммуникации.</p>
+            </article>
+            <article class="card">
+              <h3>Ваш контент</h3>
+              <p>Вы не привязаны к встроенной библиотеке. Читайте то, что купили или скачали сами.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container fade-in">
+          <h2>Для кого это?</h2>
+          <div class="audience-grid">
+            <article class="card">
+              <h3>Для экспатов</h3>
+              <p>Быстрое погружение в языковую среду Сербии или англоязычного мира через реальный контент.</p>
+            </article>
+            <article class="card">
+              <h3>Для студентов и профи</h3>
+              <p>Чтение профессиональной литературы без потери смыслов и постоянных пауз на перевод.</p>
+            </article>
+            <article class="card">
+              <h3>Для книголюбов</h3>
+              <p>Наслаждение языком оригинала без чувства вины за «подглядывание» в перевод.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-cta" id="cta">
+        <div class="container">
+          <div class="cta-wrap fade-in">
+            <h2>Откройте новую главу в изучении языков.</h2>
+            <p>Сделайте чтение в оригинале своей ежедневной привычкой уже сегодня.</p>
+            <div class="store-buttons">
+              <a class="btn js-track" data-track="download_appstore" href="https://apps.apple.com" target="_blank" rel="noopener noreferrer"
+                >Скачать в App Store</a
+              >
+              <a
+                class="btn secondary js-track"
+                data-track="download_google_play"
+                href="https://play.google.com/store"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Скачать в Google Play</a
+              >
+            </div>
+            <p class="footer-note">© <span id="year"></span> Unfolda. Read more. Learn naturally.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const trackEvent = (eventName, params = {}) => {
+        if (typeof window.gtag === "function") {
+          window.gtag("event", eventName, params);
+        }
+        if (typeof window.ym === "function") {
+          window.ym(00000000, "reachGoal", eventName);
+        }
+      };
+
+      document.querySelectorAll(".js-track").forEach((element) => {
+        element.addEventListener("click", () => {
+          const name = element.getAttribute("data-track") || "cta_click";
+          trackEvent(name, {
+            link_text: element.textContent.trim(),
+            link_url: element.getAttribute("href"),
+          });
+        });
+      });
+
+      document.getElementById("year").textContent = String(new Date().getFullYear());
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("show");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.2 }
+      );
+
+      document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>
