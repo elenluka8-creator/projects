@@ -10,6 +10,9 @@
   --radius: 20px;
   --topbar-bg: rgba(11, 16, 32, 0.72);
   --chip-bg: rgba(255, 255, 255, 0.06);
+  --grid-line: rgba(255, 255, 255, 0.05);
+  --neon-cyan: #41e6ef;
+  --neon-purple: #7c84ff;
 }
 
 * {
@@ -24,9 +27,17 @@ body {
   margin: 0;
   font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
   background:
-    radial-gradient(circle at top right, rgba(111, 123, 255, 0.22), transparent 40%),
-    radial-gradient(circle at top left, rgba(92, 213, 255, 0.15), transparent 35%),
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+    radial-gradient(circle at top right, rgba(124, 132, 255, 0.24), transparent 38%),
+    radial-gradient(circle at 15% 10%, rgba(65, 230, 239, 0.16), transparent 30%),
     var(--bg);
+  background-size:
+    30px 30px,
+    30px 30px,
+    auto,
+    auto,
+    auto;
   color: var(--text);
   line-height: 1.55;
 }
@@ -42,6 +53,9 @@ html[data-theme="light"] {
   --card-border: rgba(26, 33, 68, 0.18);
   --topbar-bg: rgba(246, 248, 255, 0.86);
   --chip-bg: rgba(79, 93, 255, 0.08);
+  --grid-line: rgba(26, 33, 68, 0.06);
+  --neon-cyan: #22c7de;
+  --neon-purple: #6370ff;
 }
 
 a {
@@ -72,6 +86,7 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+  box-shadow: 0 16px 36px rgba(8, 12, 26, 0.25);
 }
 
 .brand {
@@ -193,6 +208,10 @@ html[data-theme="light"] .eyebrow {
   gap: 28px;
 }
 
+.hero-copy h1 {
+  text-shadow: 0 0 0 transparent, 0 8px 28px rgba(22, 30, 60, 0.25);
+}
+
 .hero-copy p {
   margin-top: 18px;
 }
@@ -202,6 +221,30 @@ html[data-theme="light"] .eyebrow {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.hero-badge-row {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.floating-badge {
+  border: 1px solid rgba(65, 230, 239, 0.55);
+  color: #d8fbff;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(16, 33, 60, 0.6);
+  backdrop-filter: blur(6px);
+}
+
+html[data-theme="light"] .floating-badge {
+  color: #173757;
+  border-color: rgba(34, 199, 222, 0.5);
+  background: rgba(255, 255, 255, 0.84);
 }
 
 html[data-theme="light"] .btn.secondary {
@@ -237,17 +280,19 @@ html[data-theme="light"] .btn.secondary {
   gap: 12px;
   border: 1px solid var(--card-border);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.03);
+  background: linear-gradient(145deg, rgba(124, 132, 255, 0.2), rgba(65, 230, 239, 0.1));
   padding: 12px;
+  box-shadow: 0 18px 34px rgba(8, 12, 28, 0.25);
 }
 
-.mascot-svg {
-  width: 84px;
-  height: 84px;
+.mascot-image {
+  width: 92px;
+  height: 92px;
   flex: 0 0 auto;
   border-radius: 14px;
   object-fit: cover;
-  box-shadow: 0 8px 24px rgba(20, 30, 60, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 12px 28px rgba(20, 30, 60, 0.32);
 }
 
 .mascot-card strong {
@@ -290,9 +335,10 @@ html[data-theme="light"] .btn.secondary {
   width: min(320px, 100%);
   border-radius: 34px;
   border: 1px solid var(--card-border);
-  background: linear-gradient(180deg, #1d2448 0%, #141a33 100%);
+  background: linear-gradient(180deg, #1f2953 0%, #131b3a 100%);
   padding: 18px 14px;
-  box-shadow: 0 30px 80px rgba(10, 13, 30, 0.7);
+  box-shadow: 0 26px 72px rgba(10, 13, 30, 0.68);
+  transform: perspective(900px) rotateY(-8deg) rotateX(2deg);
 }
 
 .phone-topbar {
@@ -307,7 +353,7 @@ html[data-theme="light"] .btn.secondary {
   border: 1px solid var(--card-border);
   border-radius: 14px;
   padding: 12px;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.05);
   margin-bottom: 10px;
 }
 
@@ -363,6 +409,20 @@ html[data-theme="light"] .phone-card strong {
   margin-bottom: 8px;
 }
 
+.proof-grid .card {
+  position: relative;
+  overflow: hidden;
+}
+
+.proof-grid .card::after {
+  content: "";
+  position: absolute;
+  inset: auto -15% -45% -15%;
+  height: 80px;
+  background: radial-gradient(circle, rgba(65, 230, 239, 0.2), transparent 70%);
+  pointer-events: none;
+}
+
 .proof-grid .card p {
   font-size: 15px;
 }
@@ -391,7 +451,7 @@ html[data-theme="light"] .phone-card strong {
 
 .step,
 .card {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.035);
   border: 1px solid var(--card-border);
   border-radius: var(--radius);
   padding: 18px;
@@ -435,7 +495,8 @@ html[data-theme="light"] .phone-card strong {
   padding: 30px 20px;
   border-radius: 24px;
   border: 1px solid var(--card-border);
-  background: linear-gradient(155deg, rgba(111, 123, 255, 0.22), rgba(92, 213, 255, 0.12));
+  background: linear-gradient(155deg, rgba(124, 132, 255, 0.24), rgba(65, 230, 239, 0.12));
+  box-shadow: 0 20px 38px rgba(10, 15, 30, 0.28);
 }
 
 .store-buttons {
@@ -570,7 +631,7 @@ html[data-theme="light"] .eyebrow {
 }
 
 html[data-theme="light"] .cta-wrap {
-  background: linear-gradient(155deg, rgba(79, 93, 255, 0.18), rgba(62, 184, 255, 0.12));
+  background: linear-gradient(155deg, rgba(99, 112, 255, 0.2), rgba(34, 199, 222, 0.12));
 }
 
 html[data-theme="light"] .cta-trust-list {
@@ -601,6 +662,14 @@ html[data-theme="light"] .faq-item p {
     gap: 40px;
   }
 
+  .hero-visual {
+    gap: 18px;
+  }
+
+  .phone-mockup {
+    width: min(360px, 100%);
+  }
+
   .steps {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -626,5 +695,9 @@ html[data-theme="light"] .faq-item p {
   .topbar {
     align-items: center;
     flex-wrap: wrap;
+  }
+
+  .phone-mockup {
+    transform: none;
   }
 }
