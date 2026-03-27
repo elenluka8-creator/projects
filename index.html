@@ -55,10 +55,10 @@
       <section class="section hero" id="hero">
         <div class="container hero-grid">
           <div class="hero-copy">
-            <p class="eyebrow" data-i18n="hero.eyebrow">Web service for language learners</p>
-            <h1 data-i18n="hero.title">Read your favorite books in original languages and understand more.</h1>
+            <p class="eyebrow" data-i18n="hero.eyebrow">Read in original languages with immediate understanding</p>
+            <h1 data-i18n="hero.title">Read books in a foreign language and understand from the first paragraph.</h1>
             <p class="hero-subtitle" data-i18n="hero.subtitle">
-              Unfolda helps you learn naturally with contextual parallel paragraphs. Currently supports EPUB.
+              Upload your book and read it in two languages at once — without constant translator switching and without losing the plot.
             </p>
             <div class="hero-chips">
               <span class="chip chip-highlight" data-i18n="hero.epubBadge">EPUB only (for now)</span>
@@ -72,7 +72,7 @@
                 rel="noopener noreferrer"
                 data-track="hero-primary-cta"
                 data-i18n="hero.primaryCta"
-                >Start on web</a
+                >Upload your book</a
               >
               <a class="btn btn-secondary" href="#how" data-track="hero-secondary-cta" data-i18n="hero.secondaryCta"
                 >How it works</a
@@ -96,22 +96,22 @@
 
       <section class="section section-soft" id="proof">
         <div class="container">
-          <h2 data-i18n="proof.title">Built for focused reading and measurable progress</h2>
+          <h2 data-i18n="proof.title">What changes when you read with Unfolda</h2>
           <p class="section-lead" data-i18n="proof.lead">
-            Conversion-ready proof points that set expectations clearly: web service, EPUB support, and multilingual learning focus.
+            Less friction, more story. Focus on reading while parallel context helps you understand in the flow.
           </p>
           <div class="card-grid metrics-grid">
             <article class="card metric-card">
-              <p class="metric-value">4</p>
-              <p class="metric-label" data-i18n="proof.metric1">Learning languages supported</p>
+              <p class="benefit-title" data-i18n="proof.card1Title">Read without switching between apps</p>
+              <p class="benefit-body" data-i18n="proof.card1Body">Keep one reading flow instead of jumping to a translator every minute.</p>
             </article>
             <article class="card metric-card">
-              <p class="metric-value">100%</p>
-              <p class="metric-label" data-i18n="proof.metric2">Web experience (no app-store required)</p>
+              <p class="benefit-title" data-i18n="proof.card2Title">Keep context and reading rhythm</p>
+              <p class="benefit-body" data-i18n="proof.card2Body">Understand phrases in place and continue the chapter without losing momentum.</p>
             </article>
             <article class="card metric-card">
-              <p class="metric-value">EPUB</p>
-              <p class="metric-label" data-i18n="proof.metric3">Current input format in production</p>
+              <p class="benefit-title" data-i18n="proof.card3Title">Learn naturally through real books</p>
+              <p class="benefit-body" data-i18n="proof.card3Body">EPUB support lets you practice language with stories you actually want to read.</p>
             </article>
           </div>
         </div>
@@ -122,13 +122,13 @@
           <article class="card card-problem">
             <h2 data-i18n="problem.title">The problem</h2>
             <p data-i18n="problem.body">
-              Language learners constantly leave the book to translate words and lose context, rhythm, and motivation.
+              You read in the original language, hit a difficult phrase, jump to a translator, lose the plot thread, then repeat this loop again and again.
             </p>
           </article>
           <article class="card card-solution">
             <h2 data-i18n="solution.title">The solution</h2>
             <p data-i18n="solution.body">
-              Unfolda shows contextual parallel paragraphs so you can understand meaning in flow and keep reading in the original language.
+              Unfolda shows parallel paragraphs with context so you understand in the flow and continue reading without constant stops.
             </p>
           </article>
         </div>
@@ -137,22 +137,46 @@
       <section class="section section-soft" id="how">
         <div class="container">
           <h2 data-i18n="how.title">How it works</h2>
-          <div class="card-grid">
-            <article class="card step-card">
-              <p class="step-index">01</p>
-              <h3 data-i18n="how.step1Title">Open Unfolda on the web</h3>
-              <p data-i18n="how.step1Body">Go to unfolda.ai and start instantly in your browser.</p>
-            </article>
-            <article class="card step-card">
-              <p class="step-index">02</p>
-              <h3 data-i18n="how.step2Title">Upload your EPUB book</h3>
-              <p data-i18n="how.step2Body">Unfolda currently supports EPUB input for smooth reading sessions.</p>
-            </article>
-            <article class="card step-card">
-              <p class="step-index">03</p>
-              <h3 data-i18n="how.step3Title">Read with parallel context</h3>
-              <p data-i18n="how.step3Body">Learn English, Spanish, Serbian, or Russian with side-by-side contextual help.</p>
-            </article>
+          <div class="how-layout">
+            <div class="card-grid">
+              <article class="card step-card">
+                <p class="step-index">01</p>
+                <h3 data-i18n="how.step1Title">Open Unfolda on the web</h3>
+                <p data-i18n="how.step1Body">Go to unfolda.ai and start instantly in your browser.</p>
+              </article>
+              <article class="card step-card">
+                <p class="step-index">02</p>
+                <h3 data-i18n="how.step2Title">Upload your EPUB book</h3>
+                <p data-i18n="how.step2Body">Unfolda currently supports EPUB input for smooth reading sessions.</p>
+              </article>
+              <article class="card step-card">
+                <p class="step-index">03</p>
+                <h3 data-i18n="how.step3Title">Read with parallel context</h3>
+                <p data-i18n="how.step3Body">Learn English, Spanish, Serbian, or Russian with side-by-side contextual help.</p>
+              </article>
+            </div>
+            <aside class="card how-preview">
+              <p class="preview-title" data-i18n="how.previewTitle">Reading screen preview</p>
+              <div class="reading-mockup">
+                <div class="mockup-topbar">
+                  <span class="mockup-pill" data-i18n="how.mockHeader">EPUB Reader</span>
+                </div>
+                <div class="mockup-body">
+                  <div class="mockup-paragraph">
+                    <p class="mockup-label" data-i18n="how.previewOriginalLabel">Original paragraph</p>
+                    <p class="mockup-text" data-i18n="how.previewOriginalText">
+                      She stood by the window, listening to the rain and rereading the same line.
+                    </p>
+                  </div>
+                  <div class="mockup-paragraph">
+                    <p class="mockup-label" data-i18n="how.previewParallelLabel">Parallel context</p>
+                    <p class="mockup-text" data-i18n="how.previewParallelText">
+                      Она стояла у окна, слушала дождь и перечитывала одну и ту же строку.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </aside>
           </div>
         </div>
       </section>
@@ -162,16 +186,24 @@
           <h2 data-i18n="features.title">Why readers choose Unfolda</h2>
           <div class="card-grid">
             <article class="card">
-              <h3 data-i18n="features.item1Title">Context-first understanding</h3>
-              <p data-i18n="features.item1Body">Parallel paragraphs keep meaning intact without interrupting your reading flow.</p>
+              <h3 data-i18n="features.item1Title">Understanding without losing the plot</h3>
+              <p data-i18n="features.item1Body">You keep reading the story while getting context exactly where it matters.</p>
             </article>
             <article class="card">
-              <h3 data-i18n="features.item2Title">Multilingual interface</h3>
-              <p data-i18n="features.item2Body">Use the landing in RU, SR, EN, or ES with instant manual switching.</p>
+              <h3 data-i18n="features.item2Title">Less translator detours</h3>
+              <p data-i18n="features.item2Body">Spend more time inside the book and less time juggling extra tabs.</p>
             </article>
             <article class="card">
-              <h3 data-i18n="features.item3Title">Light and dark themes</h3>
-              <p data-i18n="features.item3Body">Choose the visual mode you prefer and keep your selection saved.</p>
+              <h3 data-i18n="features.item3Title">Natural language learning through context</h3>
+              <p data-i18n="features.item3Body">New words stick better when they come from a meaningful paragraph, not isolated drills.</p>
+            </article>
+            <article class="card">
+              <h3 data-i18n="features.item4Title">Reading at a comfortable pace</h3>
+              <p data-i18n="features.item4Body">Stay in your rhythm instead of stopping at every unfamiliar phrase.</p>
+            </article>
+            <article class="card">
+              <h3 data-i18n="features.item5Title">Built for real books, not only textbooks</h3>
+              <p data-i18n="features.item5Body">Read the EPUB books you already love and turn every chapter into practice.</p>
             </article>
           </div>
         </div>
@@ -219,8 +251,8 @@
 
       <section class="section section-cta" id="final-cta">
         <div class="container cta-wrap">
-          <h2 data-i18n="finalCta.title">Ready to read and learn naturally?</h2>
-          <p data-i18n="finalCta.subtitle">Start with EPUB books on the Unfolda web service.</p>
+          <h2 data-i18n="finalCta.title">Try it with your own book in 1 minute</h2>
+          <p data-i18n="finalCta.subtitle">Upload an EPUB and start reading with parallel context right away.</p>
           <a
             class="btn btn-primary btn-large"
             href="https://unfolda.ai"
@@ -228,7 +260,7 @@
             rel="noopener noreferrer"
             data-track="final-web-cta"
             data-i18n="finalCta.button"
-            >Go to unfolda.ai</a
+            >Upload your book</a
           >
         </div>
       </section>
@@ -249,7 +281,7 @@
       rel="noopener noreferrer"
       data-track="sticky-cta"
       data-i18n="stickyCta"
-      >Start on web</a
+      >Upload your book</a
     >
 
     <script>
