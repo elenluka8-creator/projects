@@ -78,6 +78,7 @@
                 >How it works</a
               >
             </div>
+            <p class="hero-cta-note" data-i18n="hero.ctaNote">Takes less than a minute. Start right in your browser.</p>
           </div>
           <aside class="mascot-card" aria-label="Mascot">
             <div class="mascot-emoji" aria-hidden="true">🦉</div>
@@ -85,10 +86,22 @@
             <p class="mascot-text" data-i18n="hero.mascotText">
               Read side by side, keep context, and stay focused on the story.
             </p>
-            <div class="preview-card">
-              <p class="preview-title" data-i18n="hero.previewTitle">Parallel paragraph preview</p>
-              <p class="preview-line" data-i18n="hero.previewOriginal">Original: She opened the old book and smiled.</p>
-              <p class="preview-line" data-i18n="hero.previewLearning">Learning: Она открыла старую книгу и улыбнулась.</p>
+            <div class="hero-product-mockup">
+              <p class="preview-title" data-i18n="hero.productMockupTitle">Parallel paragraph preview</p>
+              <div class="hero-product-columns">
+                <div class="hero-product-col">
+                  <p class="mockup-label" data-i18n="hero.productOriginalLabel">Original</p>
+                  <p class="mockup-text" data-i18n="hero.productOriginalText">
+                    Original: She opened the old book and smiled.
+                  </p>
+                </div>
+                <div class="hero-product-col">
+                  <p class="mockup-label" data-i18n="hero.productParallelLabel">Parallel context</p>
+                  <p class="mockup-text" data-i18n="hero.productParallelText">
+                    Learning: Она открыла старую книгу и улыбнулась.
+                  </p>
+                </div>
+              </div>
             </div>
           </aside>
         </div>
@@ -102,14 +115,17 @@
           </p>
           <div class="card-grid metrics-grid">
             <article class="card metric-card">
+              <span class="mini-icon" aria-hidden="true">↔</span>
               <p class="benefit-title" data-i18n="proof.card1Title">Read without switching between apps</p>
               <p class="benefit-body" data-i18n="proof.card1Body">Keep one reading flow instead of jumping to a translator every minute.</p>
             </article>
             <article class="card metric-card">
+              <span class="mini-icon" aria-hidden="true">◎</span>
               <p class="benefit-title" data-i18n="proof.card2Title">Keep context and reading rhythm</p>
               <p class="benefit-body" data-i18n="proof.card2Body">Understand phrases in place and continue the chapter without losing momentum.</p>
             </article>
             <article class="card metric-card">
+              <span class="mini-icon" aria-hidden="true">✦</span>
               <p class="benefit-title" data-i18n="proof.card3Title">Learn naturally through real books</p>
               <p class="benefit-body" data-i18n="proof.card3Body">EPUB support lets you practice language with stories you actually want to read.</p>
             </article>
@@ -140,23 +156,26 @@
           <div class="how-layout">
             <div class="card-grid">
               <article class="card step-card">
+                <span class="mini-icon" aria-hidden="true">1</span>
                 <p class="step-index">01</p>
                 <h3 data-i18n="how.step1Title">Open Unfolda on the web</h3>
                 <p data-i18n="how.step1Body">Go to unfolda.ai and start instantly in your browser.</p>
               </article>
               <article class="card step-card">
+                <span class="mini-icon" aria-hidden="true">2</span>
                 <p class="step-index">02</p>
                 <h3 data-i18n="how.step2Title">Upload your EPUB book</h3>
                 <p data-i18n="how.step2Body">Unfolda currently supports EPUB input for smooth reading sessions.</p>
               </article>
               <article class="card step-card">
+                <span class="mini-icon" aria-hidden="true">3</span>
                 <p class="step-index">03</p>
                 <h3 data-i18n="how.step3Title">Read with parallel context</h3>
                 <p data-i18n="how.step3Body">Learn English, Spanish, Serbian, or Russian with side-by-side contextual help.</p>
               </article>
             </div>
             <aside class="card how-preview">
-              <p class="preview-title" data-i18n="how.previewTitle">Reading screen preview</p>
+              <p class="preview-title" data-i18n="how.productMockupTitle">Reading screen preview</p>
               <div class="reading-mockup">
                 <div class="mockup-topbar">
                   <span class="mockup-pill" data-i18n="how.mockHeader">EPUB Reader</span>
@@ -186,22 +205,27 @@
           <h2 data-i18n="features.title">Why readers choose Unfolda</h2>
           <div class="card-grid">
             <article class="card">
+              <span class="mini-icon" aria-hidden="true">◈</span>
               <h3 data-i18n="features.item1Title">Understanding without losing the plot</h3>
               <p data-i18n="features.item1Body">You keep reading the story while getting context exactly where it matters.</p>
             </article>
             <article class="card">
+              <span class="mini-icon" aria-hidden="true">↺</span>
               <h3 data-i18n="features.item2Title">Less translator detours</h3>
               <p data-i18n="features.item2Body">Spend more time inside the book and less time juggling extra tabs.</p>
             </article>
             <article class="card">
+              <span class="mini-icon" aria-hidden="true">⌘</span>
               <h3 data-i18n="features.item3Title">Natural language learning through context</h3>
               <p data-i18n="features.item3Body">New words stick better when they come from a meaningful paragraph, not isolated drills.</p>
             </article>
             <article class="card">
+              <span class="mini-icon" aria-hidden="true">≈</span>
               <h3 data-i18n="features.item4Title">Reading at a comfortable pace</h3>
               <p data-i18n="features.item4Body">Stay in your rhythm instead of stopping at every unfamiliar phrase.</p>
             </article>
             <article class="card">
+              <span class="mini-icon" aria-hidden="true">▣</span>
               <h3 data-i18n="features.item5Title">Built for real books, not only textbooks</h3>
               <p data-i18n="features.item5Body">Read the EPUB books you already love and turn every chapter into practice.</p>
             </article>
@@ -262,6 +286,7 @@
             data-i18n="finalCta.button"
             >Upload your book</a
           >
+          <p class="cta-micro-note" data-i18n="finalCta.note">No setup needed. Start in your browser.</p>
         </div>
       </section>
     </main>
