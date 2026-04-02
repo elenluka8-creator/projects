@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unfolda — Read in original languages with parallel context</title>
+    <meta
+      id="meta-description"
+      name="description"
+      content="Unfolda is a web service for reading EPUB books in original languages with parallel paragraphs. Learn English, Spanish, Serbian, and Russian naturally."
+    />
+    <meta id="meta-robots" name="robots" content="index,follow" />
+    <meta id="meta-og-title" property="og:title" content="Unfolda — Read in original languages with parallel context" />
+    <meta
+      id="meta-og-description"
+      property="og:description"
+      content="Read EPUB books in original languages and understand more with contextual parallel paragraphs."
+    />
+    <meta id="meta-og-type" property="og:type" content="website" />
+    <meta id="meta-twitter-card" name="twitter:card" content="summary_large_image" />
+    <meta
+      id="meta-twitter-title"
+      name="twitter:title"
+      content="Unfolda — Read in original languages with parallel context"
+    />
+    <meta
+      id="meta-twitter-description"
+      name="twitter:description"
+      content="Read EPUB books in original languages and understand more with contextual parallel paragraphs."
+    />
+    <link rel="stylesheet" href="./styles.css?v=20260326" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="#hero" aria-label="Unfolda">
+          <span class="brand-dot" aria-hidden="true"></span>
+          <span>Unfolda</span>
+        </a>
+        <div class="topbar-controls">
+          <div class="lang-switcher" role="group" aria-label="Language switcher">
+            <button type="button" class="lang-btn" data-lang="ru">RU</button>
+            <button type="button" class="lang-btn" data-lang="sr">SR</button>
+            <button type="button" class="lang-btn" data-lang="en">EN</button>
+            <button type="button" class="lang-btn" data-lang="es">ES</button>
+          </div>
+          <button id="theme-toggle" class="theme-toggle" type="button" aria-live="polite">
+            <span id="theme-toggle-label" data-i18n="nav.themeDark">Dark mode</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section hero" id="hero">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow" data-i18n="hero.eyebrow">Read in original languages with immediate understanding</p>
+            <h1 data-i18n="hero.title">Read books in a foreign language and understand from the first paragraph.</h1>
+            <p class="hero-subtitle" data-i18n="hero.subtitle">
+              Upload your book and read it in two languages at once — without constant translator switching and without losing the plot.
+            </p>
+            <div class="hero-chips">
+              <span class="chip chip-highlight" data-i18n="hero.epubBadge">EPUB only (for now)</span>
+              <span class="chip" data-i18n="hero.languagesBadge">Learning languages: English, Spanish, Serbian, Russian</span>
+            </div>
+            <div class="hero-actions">
+              <a
+                class="btn btn-primary"
+                href="https://unfolda.ai"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-track="hero-primary-cta"
+                data-i18n="hero.primaryCta"
+                >Upload your book</a
+              >
+              <a class="btn btn-secondary" href="#how" data-track="hero-secondary-cta" data-i18n="hero.secondaryCta"
+                >How it works</a
+              >
+            </div>
+            <p class="hero-cta-note" data-i18n="hero.ctaNote">Takes less than a minute. Start right in your browser.</p>
+          </div>
+          <aside class="mascot-card" aria-label="Mascot">
+            <div class="mascot-emoji" aria-hidden="true">🦉</div>
+            <p class="mascot-title" data-i18n="hero.mascotTitle">Uno the Owl — Your reading companion.</p>
+            <p class="mascot-text" data-i18n="hero.mascotText">
+              Read side by side, keep context, and stay focused on the story.
+            </p>
+            <div class="hero-product-mockup">
+              <p class="preview-title" data-i18n="hero.productMockupTitle">Parallel paragraph preview</p>
+              <div class="hero-product-columns">
+                <div class="hero-product-col">
+                  <p class="mockup-label" data-i18n="hero.productOriginalLabel">Original</p>
+                  <p class="mockup-text" data-i18n="hero.productOriginalText">
+                    Original: She opened the old book and smiled.
+                  </p>
+                </div>
+                <div class="hero-product-col">
+                  <p class="mockup-label" data-i18n="hero.productParallelLabel">Parallel context</p>
+                  <p class="mockup-text" data-i18n="hero.productParallelText">
+                    Learning: Она открыла старую книгу и улыбнулась.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section section-soft" id="proof">
+        <div class="container">
+          <h2 data-i18n="proof.title">What changes when you read with Unfolda</h2>
+          <p class="section-lead" data-i18n="proof.lead">
+            Less friction, more story. Focus on reading while parallel context helps you understand in the flow.
+          </p>
+          <div class="card-grid metrics-grid">
+            <article class="card metric-card">
+              <span class="mini-icon" aria-hidden="true">↔</span>
+              <p class="benefit-title" data-i18n="proof.card1Title">Read without switching between apps</p>
+              <p class="benefit-body" data-i18n="proof.card1Body">Keep one reading flow instead of jumping to a translator every minute.</p>
+            </article>
+            <article class="card metric-card">
+              <span class="mini-icon" aria-hidden="true">◎</span>
+              <p class="benefit-title" data-i18n="proof.card2Title">Keep context and reading rhythm</p>
+              <p class="benefit-body" data-i18n="proof.card2Body">Understand phrases in place and continue the chapter without losing momentum.</p>
+            </article>
+            <article class="card metric-card">
+              <span class="mini-icon" aria-hidden="true">✦</span>
+              <p class="benefit-title" data-i18n="proof.card3Title">Learn naturally through real books</p>
+              <p class="benefit-body" data-i18n="proof.card3Body">EPUB support lets you practice language with stories you actually want to read.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="problem-solution">
+        <div class="container two-col">
+          <article class="card card-problem">
+            <h2 data-i18n="problem.title">The problem</h2>
+            <p data-i18n="problem.body">
+              You read in the original language, hit a difficult phrase, jump to a translator, lose the plot thread, then repeat this loop again and again.
+            </p>
+          </article>
+          <article class="card card-solution">
+            <h2 data-i18n="solution.title">The solution</h2>
+            <p data-i18n="solution.body">
+              Unfolda shows parallel paragraphs with context so you understand in the flow and continue reading without constant stops.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section section-soft" id="how">
+        <div class="container">
+          <h2 data-i18n="how.title">How it works</h2>
+          <div class="how-layout">
+            <div class="card-grid">
+              <article class="card step-card">
+                <span class="mini-icon" aria-hidden="true">1</span>
+                <p class="step-index">01</p>
+                <h3 data-i18n="how.step1Title">Open Unfolda on the web</h3>
+                <p data-i18n="how.step1Body">Go to unfolda.ai and start instantly in your browser.</p>
+              </article>
+              <article class="card step-card">
+                <span class="mini-icon" aria-hidden="true">2</span>
+                <p class="step-index">02</p>
+                <h3 data-i18n="how.step2Title">Upload your EPUB book</h3>
+                <p data-i18n="how.step2Body">Unfolda currently supports EPUB input for smooth reading sessions.</p>
+              </article>
+              <article class="card step-card">
+                <span class="mini-icon" aria-hidden="true">3</span>
+                <p class="step-index">03</p>
+                <h3 data-i18n="how.step3Title">Read with parallel context</h3>
+                <p data-i18n="how.step3Body">Learn English, Spanish, Serbian, or Russian with side-by-side contextual help.</p>
+              </article>
+            </div>
+            <aside class="card how-preview">
+              <p class="preview-title" data-i18n="how.productMockupTitle">Reading screen preview</p>
+              <div class="reading-mockup">
+                <div class="mockup-topbar">
+                  <span class="mockup-pill" data-i18n="how.mockHeader">EPUB Reader</span>
+                </div>
+                <div class="mockup-body">
+                  <div class="mockup-paragraph">
+                    <p class="mockup-label" data-i18n="how.previewOriginalLabel">Original paragraph</p>
+                    <p class="mockup-text" data-i18n="how.previewOriginalText">
+                      She stood by the window, listening to the rain and rereading the same line.
+                    </p>
+                  </div>
+                  <div class="mockup-paragraph">
+                    <p class="mockup-label" data-i18n="how.previewParallelLabel">Parallel context</p>
+                    <p class="mockup-text" data-i18n="how.previewParallelText">
+                      Она стояла у окна, слушала дождь и перечитывала одну и ту же строку.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="features">
+        <div class="container">
+          <h2 data-i18n="features.title">Why readers choose Unfolda</h2>
+          <div class="card-grid">
+            <article class="card">
+              <span class="mini-icon" aria-hidden="true">◈</span>
+              <h3 data-i18n="features.item1Title">Understanding without losing the plot</h3>
+              <p data-i18n="features.item1Body">You keep reading the story while getting context exactly where it matters.</p>
+            </article>
+            <article class="card">
+              <span class="mini-icon" aria-hidden="true">↺</span>
+              <h3 data-i18n="features.item2Title">Less translator detours</h3>
+              <p data-i18n="features.item2Body">Spend more time inside the book and less time juggling extra tabs.</p>
+            </article>
+            <article class="card">
+              <span class="mini-icon" aria-hidden="true">⌘</span>
+              <h3 data-i18n="features.item3Title">Natural language learning through context</h3>
+              <p data-i18n="features.item3Body">New words stick better when they come from a meaningful paragraph, not isolated drills.</p>
+            </article>
+            <article class="card">
+              <span class="mini-icon" aria-hidden="true">≈</span>
+              <h3 data-i18n="features.item4Title">Reading at a comfortable pace</h3>
+              <p data-i18n="features.item4Body">Stay in your rhythm instead of stopping at every unfamiliar phrase.</p>
+            </article>
+            <article class="card">
+              <span class="mini-icon" aria-hidden="true">▣</span>
+              <h3 data-i18n="features.item5Title">Built for real books, not only textbooks</h3>
+              <p data-i18n="features.item5Body">Read the EPUB books you already love and turn every chapter into practice.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-soft" id="audience">
+        <div class="container">
+          <h2 data-i18n="audience.title">Who this is for</h2>
+          <div class="card-grid">
+            <article class="card">
+              <h3 data-i18n="audience.item1Title">Expats and relocators</h3>
+              <p data-i18n="audience.item1Body">Adapt to a new language environment while reading books you enjoy.</p>
+            </article>
+            <article class="card">
+              <h3 data-i18n="audience.item2Title">Students and professionals</h3>
+              <p data-i18n="audience.item2Body">Read domain literature in original language with better comprehension.</p>
+            </article>
+            <article class="card">
+              <h3 data-i18n="audience.item3Title">Book lovers</h3>
+              <p data-i18n="audience.item3Body">Enjoy original-language reading with less friction and more clarity.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="faq">
+        <div class="container">
+          <h2 data-i18n="faq.title">FAQ</h2>
+          <div class="faq-list">
+            <details class="faq-item" data-faq-id="formats">
+              <summary data-i18n="faq.q1">What file formats are supported now?</summary>
+              <p data-i18n="faq.a1">At this stage Unfolda supports EPUB only. Other formats are not available yet.</p>
+            </details>
+            <details class="faq-item" data-faq-id="platform">
+              <summary data-i18n="faq.q2">Is this a mobile app or a web service?</summary>
+              <p data-i18n="faq.a2">Unfolda is a web service. You can start directly at https://unfolda.ai.</p>
+            </details>
+            <details class="faq-item" data-faq-id="languages">
+              <summary data-i18n="faq.q3">Which learning languages are available?</summary>
+              <p data-i18n="faq.a3">Current learning languages: English, Spanish, Serbian, and Russian.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-cta" id="final-cta">
+        <div class="container cta-wrap">
+          <h2 data-i18n="finalCta.title">Try it with your own book in 1 minute</h2>
+          <p data-i18n="finalCta.subtitle">Upload an EPUB and start reading with parallel context right away.</p>
+          <a
+            class="btn btn-primary btn-large"
+            href="https://unfolda.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-track="final-web-cta"
+            data-i18n="finalCta.button"
+            >Upload your book</a
+          >
+          <p class="cta-micro-note" data-i18n="finalCta.note">No setup needed. Start in your browser.</p>
+        </div>
+      </section>
+    </main>
+
+    <div class="language-notice is-hidden" id="language-notice" role="status" aria-live="polite">
+      <p id="language-notice-text" data-i18n="notice.text">Language selected automatically. You can change it anytime.</p>
+      <div class="language-notice-actions">
+        <button id="notice-change" type="button" class="btn btn-secondary btn-small" data-i18n="notice.change">Change language</button>
+        <button id="notice-dismiss" type="button" class="btn btn-ghost btn-small" data-i18n="notice.dismiss">Dismiss</button>
+      </div>
+    </div>
+
+    <a
+      class="sticky-mobile-cta"
+      href="https://unfolda.ai"
+      target="_blank"
+      rel="noopener noreferrer"
+      data-track="sticky-cta"
+      data-i18n="stickyCta"
+      >Upload your book</a
+    >
+
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      window.unfoldaGtagStub = function () {
+        window.dataLayer.push(arguments);
+      };
+      window.gtag = window.gtag || window.unfoldaGtagStub;
+    </script>
+    <script src="./locales.js?v=20260326" defer></script>
+    <script src="./app.js?v=20260326" defer></script>
+  </body>
+</html>
