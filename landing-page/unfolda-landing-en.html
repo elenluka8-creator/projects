@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unfolda — Unfold the meaning</title>
+<meta name="description" content="Upload a book in another language. Get it back in yours — translated, explained, ready to read.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1a1f36;
+  --amber: #c9963a;
+  --amber-light: #e8a849;
+  --cream: #faf6ef;
+  --cream-dark: #f2ebe0;
+  --gray: #6b7280;
+  --gray-light: #9ca3af;
+  --white: #ffffff;
+  --font-heading: 'Instrument Serif', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--navy);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── Utility ── */
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.anim { opacity: 0; animation: fadeUp 0.8s ease forwards; }
+.anim-d1 { animation-delay: 0.1s; }
+.anim-d2 { animation-delay: 0.2s; }
+.anim-d3 { animation-delay: 0.3s; }
+.anim-d4 { animation-delay: 0.4s; }
+.anim-d5 { animation-delay: 0.5s; }
+.anim-d6 { animation-delay: 0.6s; }
+
+/* ── Header ── */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(250, 246, 239, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(26, 31, 54, 0.06);
+}
+header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--navy);
+}
+.logo-icon { flex-shrink: 0; }
+.logo-text {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: -0.3px;
+}
+nav { display: flex; align-items: center; gap: 32px; }
+nav a {
+  font-size: 14px;
+  color: var(--gray);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+nav a:hover { color: var(--navy); }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  border: none;
+}
+.btn-primary {
+  background: var(--navy);
+  color: var(--cream);
+}
+.btn-primary:hover {
+  background: #2a3150;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(26, 31, 54, 0.2);
+}
+.btn-amber {
+  background: var(--amber);
+  color: var(--white);
+}
+.btn-amber:hover {
+  background: #b8872f;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(201, 150, 58, 0.3);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--gray);
+  padding: 10px 0;
+}
+.btn-ghost:hover { color: var(--navy); }
+.btn-sm { padding: 8px 18px; font-size: 14px; }
+
+/* ── Hero ── */
+.hero {
+  padding: 140px 0 100px;
+  text-align: center;
+}
+.hero h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(48px, 8vw, 80px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -1px;
+  color: var(--navy);
+  margin-bottom: 24px;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--amber);
+}
+.hero p {
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--gray);
+  max-width: 560px;
+  margin: 0 auto 40px;
+}
+.hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* ── Book mockup in hero ── */
+.hero-visual {
+  margin-top: 64px;
+  display: flex;
+  justify-content: center;
+}
+.book-mockup {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 32px 36px;
+  max-width: 620px;
+  width: 100%;
+  box-shadow:
+    0 1px 3px rgba(26, 31, 54, 0.04),
+    0 8px 32px rgba(26, 31, 54, 0.06),
+    0 24px 60px rgba(26, 31, 54, 0.04);
+  text-align: left;
+}
+.book-mockup-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--amber);
+  margin-bottom: 20px;
+}
+.book-mockup .bm-section {
+  margin-bottom: 16px;
+}
+.book-mockup .bm-tag {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+.bm-tag-orig { background: rgba(26,31,54,0.06); color: var(--navy); }
+.bm-tag-trans { background: rgba(201,150,58,0.12); color: var(--amber); }
+.bm-tag-notes { background: rgba(201,150,58,0.08); color: #a07828; }
+.book-mockup .bm-text {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--navy);
+}
+.book-mockup .bm-text-trans {
+  color: #3d4260;
+}
+.book-mockup .bm-note {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--gray);
+  padding-left: 12px;
+  border-left: 2px solid var(--amber-light);
+  margin: 4px 0;
+}
+.bm-divider {
+  height: 1px;
+  background: rgba(26,31,54,0.06);
+  margin: 16px 0;
+}
+
+/* ── Pain + Solution ── */
+.pain {
+  padding: 100px 0;
+  text-align: center;
+}
+.pain h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 400;
+  margin-bottom: 40px;
+}
+.pain-lines {
+  max-width: 480px;
+  margin: 0 auto 40px;
+}
+.pain-line {
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--gray);
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(26,31,54,0.06);
+}
+.pain-line:last-child { border-bottom: none; }
+.pain-solution {
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--navy);
+  max-width: 600px;
+  margin: 0 auto;
+}
+.pain-solution strong { color: var(--amber); font-weight: 600; }
+
+/* ── Section headings ── */
+.section-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+/* ── See the result ── */
+.result {
+  padding: 100px 0;
+  background: var(--navy);
+  color: var(--cream);
+}
+.result .section-heading { color: var(--cream); }
+.result-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 960px;
+  margin: 0 auto 24px;
+}
+.result-panel {
+  background: rgba(250,246,239,0.04);
+  border: 1px solid rgba(250,246,239,0.08);
+  border-radius: 12px;
+  padding: 28px;
+}
+.result-panel-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+.result-panel-label-orig { color: var(--gray-light); }
+.result-panel-label-guided { color: var(--amber-light); }
+.result-panel p {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  line-height: 1.75;
+  color: rgba(250,246,239,0.85);
+}
+.result-panel .rp-tag {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  margin: 16px 0 8px;
+}
+.rp-tag:first-child { margin-top: 0; }
+.rp-tag-o { background: rgba(250,246,239,0.06); color: var(--gray-light); }
+.rp-tag-t { background: rgba(201,150,58,0.15); color: var(--amber-light); }
+.rp-tag-n { background: rgba(201,150,58,0.08); color: #d4a54a; }
+.result-panel .rp-note {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(250,246,239,0.5);
+  padding-left: 12px;
+  border-left: 2px solid rgba(201,150,58,0.3);
+  margin: 6px 0;
+}
+.rp-divider {
+  height: 1px;
+  background: rgba(250,246,239,0.06);
+  margin: 14px 0;
+}
+.result-caption {
+  text-align: center;
+  font-size: 14px;
+  color: rgba(250,246,239,0.4);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ── How it works ── */
+.how {
+  padding: 100px 0;
+}
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.step {
+  text-align: center;
+  padding: 32px 24px;
+}
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--cream);
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.step h3 {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+.step p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--gray);
+}
+
+/* ── Modes ── */
+.modes {
+  padding: 100px 0;
+  background: var(--white);
+}
+.modes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.mode-card {
+  border-radius: 16px;
+  padding: 36px;
+  border: 1px solid rgba(26,31,54,0.08);
+}
+.mode-card-translate { background: var(--cream); }
+.mode-card-guided {
+  background: var(--navy);
+  color: var(--cream);
+  border-color: transparent;
+}
+.mode-card h3 {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 400;
+  margin-bottom: 16px;
+}
+.mode-card p {
+  font-size: 15px;
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+.mode-card-translate p { color: var(--gray); }
+.mode-card-guided p { color: rgba(250,246,239,0.65); }
+.mode-best {
+  font-size: 13px;
+  font-style: italic;
+  padding-top: 12px;
+  border-top: 1px solid rgba(26,31,54,0.08);
+}
+.mode-card-guided .mode-best {
+  border-color: rgba(250,246,239,0.1);
+  color: var(--amber-light);
+}
+.mode-card-translate .mode-best { color: var(--amber); }
+.mode-preview {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  line-height: 1.7;
+}
+.mode-card-translate .mode-preview {
+  background: var(--white);
+  color: var(--navy);
+}
+.mode-card-guided .mode-preview {
+  background: rgba(250,246,239,0.05);
+  color: rgba(250,246,239,0.8);
+}
+.mode-preview .mp-tag {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  display: inline-block;
+  margin: 10px 0 4px;
+}
+.mp-tag:first-child { margin-top: 0; }
+.mode-card-guided .mp-tag { background: rgba(250,246,239,0.06); color: rgba(250,246,239,0.4); }
+
+/* ── Languages ── */
+.langs {
+  padding: 100px 0;
+}
+.langs-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 700px;
+  margin: 0 auto 32px;
+}
+.lang-tag {
+  padding: 10px 20px;
+  border-radius: 100px;
+  font-size: 15px;
+  font-weight: 500;
+  background: var(--white);
+  color: var(--navy);
+  border: 1px solid rgba(26,31,54,0.08);
+  transition: all 0.2s;
+}
+.lang-tag:hover {
+  border-color: var(--amber);
+  background: rgba(201,150,58,0.05);
+}
+.langs-note {
+  text-align: center;
+  font-size: 15px;
+  color: var(--gray);
+}
+
+/* ── Privacy ── */
+.privacy {
+  padding: 80px 0;
+  background: var(--white);
+}
+.privacy-inner {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+.privacy h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 4vw, 36px);
+  font-weight: 400;
+  margin-bottom: 20px;
+}
+.privacy p {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--gray);
+  margin-bottom: 12px;
+}
+
+/* ── Final CTA ── */
+.final-cta {
+  padding: 100px 0;
+  text-align: center;
+  background: var(--navy);
+  color: var(--cream);
+}
+.final-cta h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 400;
+  margin-bottom: 32px;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.final-cta h2 em {
+  font-style: italic;
+  color: var(--amber-light);
+}
+.final-cta .sub-cta {
+  margin-top: 16px;
+  font-size: 14px;
+  color: rgba(250,246,239,0.4);
+}
+
+/* ── Footer ── */
+footer {
+  padding: 40px 0;
+  border-top: 1px solid rgba(26,31,54,0.06);
+}
+footer .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-left {
+  font-size: 14px;
+  color: var(--gray);
+}
+.footer-links {
+  display: flex;
+  gap: 24px;
+}
+.footer-links a {
+  font-size: 13px;
+  color: var(--gray-light);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--navy); }
+
+/* ── Mobile nav ── */
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.mobile-menu-btn { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
+.mobile-menu-btn span { display: block; width: 20px; height: 2px; background: var(--navy); margin: 4px 0; transition: 0.2s; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .hero { padding: 120px 0 60px; }
+  .hero p { font-size: 17px; }
+  .nav-links { display: none; }
+  .mobile-menu-btn { display: block; }
+  .result-panels { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr; gap: 16px; }
+  .step { padding: 24px 16px; }
+  .modes-grid { grid-template-columns: 1fr; }
+  .book-mockup { padding: 24px 20px; }
+  .pain, .result, .how, .modes, .langs, .privacy, .final-cta { padding: 72px 0; }
+  footer .container { flex-direction: column; text-align: center; }
+}
+@media (max-width: 480px) {
+  .hero h1 { font-size: 40px; }
+  .hero-actions { flex-direction: column; }
+  .hero-actions .btn { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ Header ═══ -->
+<header>
+  <div class="container">
+    <a href="#" class="logo">
+      <svg class="logo-icon" width="32" height="32" viewBox="0 0 32 32">
+        <path d="M4.5 4 Q4.5 1.5 7 1.5 L15.5 1.5 L15.5 30.5 L6 30.5 Q3.5 30.5 3.5 28 L3.5 6.5 Q3.5 4 4.5 4 Z" fill="#1a1f36"/>
+        <path d="M16.5 1.5 L26 1.5 Q28.5 1.5 28.5 4 L28.5 28 Q28.5 30.5 26 30.5 L16.5 30.5 Z" fill="#c9963a"/>
+        <line x1="16" y1="0.5" x2="16" y2="31.5" stroke="#0f1219" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="7" y1="10" x2="13" y2="10" stroke="#faf6ef" stroke-width="1.5" stroke-linecap="round" opacity="0.35"/>
+        <line x1="7" y1="15" x2="12.5" y2="15" stroke="#faf6ef" stroke-width="1.5" stroke-linecap="round" opacity="0.25"/>
+        <line x1="19" y1="10" x2="26" y2="10" stroke="#1a1f36" stroke-width="1.5" stroke-linecap="round" opacity="0.2"/>
+        <line x1="19" y1="15" x2="25.5" y2="15" stroke="#1a1f36" stroke-width="1.5" stroke-linecap="round" opacity="0.15"/>
+      </svg>
+      <span class="logo-text">Unfolda</span>
+    </a>
+    <nav>
+      <div class="nav-links">
+        <a href="#how">How it works</a>
+        <a href="#modes">Modes</a>
+        <a href="#languages">Languages</a>
+      </div>
+      <a href="#cta" class="btn btn-primary btn-sm">Get started free</a>
+      <button class="mobile-menu-btn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- ═══ Hero ═══ -->
+<section class="hero">
+  <div class="container">
+    <h1 class="anim">Unfold the <em>meaning.</em></h1>
+    <p class="anim anim-d2">Upload a book in another language. Get it back in yours — translated, explained, ready to read.</p>
+    <div class="hero-actions anim anim-d3">
+      <a href="#cta" class="btn btn-primary">Get started free</a>
+      <a href="#pain" class="btn btn-ghost">See how it works ↓</a>
+    </div>
+
+    <div class="hero-visual anim anim-d5">
+      <div class="book-mockup">
+        <div class="book-mockup-label">Guided Mode preview</div>
+
+        <div class="bm-section">
+          <span class="bm-tag bm-tag-orig">Original</span>
+          <p class="bm-text" style="font-style: italic;">Era una bella mattina di fine novembre. Nella notte aveva piovuto un poco, e il terreno era umido, come se dal suolo salisse un respiro acquoso.</p>
+        </div>
+
+        <div class="bm-divider"></div>
+
+        <div class="bm-section">
+          <span class="bm-tag bm-tag-trans">Translation</span>
+          <p class="bm-text bm-text-trans">It was a beautiful morning at the end of November. During the night it had rained a little, and the ground was damp, as if a watery breath were rising from the soil.</p>
+        </div>
+
+        <div class="bm-divider"></div>
+
+        <div class="bm-section">
+          <span class="bm-tag bm-tag-notes">Notes</span>
+          <p class="bm-note">"un respiro acquoso" — literally "a watery breath." A literary metaphor for moisture rising as mist.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Pain + Solution ═══ -->
+<section class="pain" id="pain">
+  <div class="container">
+    <h2>You know how it goes.</h2>
+    <div class="pain-lines">
+      <div class="pain-line">The dictionary interrupts every page.</div>
+      <div class="pain-line">The translator loses tone and idioms.</div>
+      <div class="pain-line">The tools work with phrases, not books.</div>
+      <div class="pain-line">The machine translation doesn't feel like the same book.</div>
+    </div>
+    <p class="pain-solution"><strong>Unfolda takes your entire EPUB</strong> and transforms it into a version where every paragraph is understandable and the author's voice is preserved.</p>
+  </div>
+</section>
+
+<!-- ═══ See the result ═══ -->
+<section class="result">
+  <div class="container">
+    <h2 class="section-heading">Here's what you get.</h2>
+    <div class="result-panels">
+
+      <div class="result-panel">
+        <div class="result-panel-label result-panel-label-orig">Original (Italian)</div>
+        <p>Era una bella mattina di fine novembre. Nella notte aveva piovuto un poco, e il terreno era umido, come se dal suolo salisse un respiro acquoso. Ma verso il mattino il cielo si era rasserenato.</p>
+      </div>
+
+      <div class="result-panel">
+        <div class="result-panel-label result-panel-label-guided">Guided Mode output</div>
+
+        <span class="rp-tag rp-tag-o">Original</span>
+        <p style="font-style: italic; opacity: 0.6; font-size: 14px;">Era una bella mattina di fine novembre. Nella notte aveva piovuto un poco...</p>
+
+        <div class="rp-divider"></div>
+
+        <span class="rp-tag rp-tag-t">Translation</span>
+        <p>It was a beautiful morning at the end of November. During the night it had rained a little, and the ground was damp, as if a watery breath were rising from the soil. But toward morning the sky had cleared.</p>
+
+        <div class="rp-divider"></div>
+
+        <span class="rp-tag rp-tag-n">Notes</span>
+        <p class="rp-note">"un respiro acquoso" — literally "a watery breath." A literary metaphor for ground moisture rising as mist.</p>
+        <p class="rp-note">"si era rasserenato" — from "rasserenare" (to clear up). Often used for both weather and mood.</p>
+      </div>
+
+    </div>
+    <p class="result-caption">This is a real example of Guided Mode output. Translate Mode gives you only the clean translation — no annotations, just a natural-reading book.</p>
+  </div>
+</section>
+
+<!-- ═══ How it works ═══ -->
+<section class="how" id="how">
+  <div class="container">
+    <h2 class="section-heading">Three steps. One book.</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Upload</h3>
+        <p>Drop your EPUB file. Unfolda validates it and detects the source language automatically. You see the word count, estimated time, and credit cost before anything starts.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Choose your mode</h3>
+        <p>Translate Mode for a clean, readable translation. Guided Mode for a learning experience with explanations built in. Set your language level and style.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Download and read</h3>
+        <p>Processing runs in the background — close the browser, come back later. When it's ready, download your EPUB and open it in any reader.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Modes ═══ -->
+<section class="modes" id="modes">
+  <div class="container">
+    <h2 class="section-heading">Two ways to read.</h2>
+    <div class="modes-grid">
+
+      <div class="mode-card mode-card-translate">
+        <h3>Translate Mode</h3>
+        <p>You get a complete, natural-reading translation. The AI understands genre, tone, and character voices. Names and terms stay consistent from the first chapter to the last.</p>
+        <div class="mode-best">Best for: reading the content in your language, quickly and cleanly.</div>
+        <div class="mode-preview">
+          It was a beautiful morning at the end of November. During the night it had rained a little, and the ground was damp, as if a watery breath were rising from the soil. But toward morning the sky had cleared.
+        </div>
+      </div>
+
+      <div class="mode-card mode-card-guided">
+        <h3>Guided Mode</h3>
+        <p>Each paragraph becomes a structured reading block: original text, translation, brief explanations, then the original again. You understand first, then re-read with fresh eyes.</p>
+        <div class="mode-best">Best for: language learners reading real books as practice.</div>
+        <div class="mode-preview">
+          <span class="mp-tag">Original</span>
+          <div style="font-style: italic; opacity: 0.5; font-size: 13px; margin-bottom: 8px;">Era una bella mattina di fine novembre...</div>
+          <span class="mp-tag">Translation</span>
+          <div style="margin-bottom: 8px;">It was a beautiful morning at the end of November...</div>
+          <span class="mp-tag">Notes</span>
+          <div style="font-family: var(--font-body); font-size: 12px; opacity: 0.5; padding-left: 10px; border-left: 2px solid rgba(250,246,239,0.15);">"un respiro acquoso" — a literary metaphor for mist.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Languages ═══ -->
+<section class="langs" id="languages">
+  <div class="container">
+    <h2 class="section-heading">14 languages. Any pair.</h2>
+    <div class="langs-grid">
+      <span class="lang-tag">English</span>
+      <span class="lang-tag">Russian</span>
+      <span class="lang-tag">Serbian</span>
+      <span class="lang-tag">German</span>
+      <span class="lang-tag">French</span>
+      <span class="lang-tag">Spanish</span>
+      <span class="lang-tag">Italian</span>
+      <span class="lang-tag">Portuguese</span>
+      <span class="lang-tag">Chinese</span>
+      <span class="lang-tag">Japanese</span>
+      <span class="lang-tag">Korean</span>
+      <span class="lang-tag">Turkish</span>
+      <span class="lang-tag">Dutch</span>
+      <span class="lang-tag">Polish</span>
+    </div>
+    <p class="langs-note">Upload in any of these. Get the result in any other. More languages added based on demand.</p>
+  </div>
+</section>
+
+<!-- ═══ Privacy ═══ -->
+<section class="privacy">
+  <div class="container">
+    <div class="privacy-inner">
+      <h2>Your books stay yours.</h2>
+      <p>We process books on your behalf and delete all files after you download the result. No long-term storage. No redistribution. Only job metadata is kept.</p>
+      <p>DRM-protected files are rejected — we never circumvent copy protection. Unfolda generates AI-enhanced versions for personal use. These are not official translations.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Final CTA ═══ -->
+<section class="final-cta" id="cta">
+  <div class="container">
+    <h2>Your next book is waiting <em>in another language.</em></h2>
+    <a href="#" class="btn btn-amber">Try your first book free</a>
+    <p class="sub-cta">Free credits on signup — enough to transform your first book.</p>
+  </div>
+</section>
+
+<!-- ═══ Footer ═══ -->
+<footer>
+  <div class="container">
+    <div class="footer-left">© 2026 Unfolda — Read any book in any language.</div>
+    <div class="footer-links">
+      <a href="#how">How it works</a>
+      <a href="#modes">Modes</a>
+      <a href="#languages">Languages</a>
+      <a href="#">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

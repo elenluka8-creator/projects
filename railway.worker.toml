@@ -1,0 +1,11 @@
+# Railway configuration — Worker service
+# In Railway dashboard: set "Config File Path" to railway.worker.toml for the worker service.
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+startCommand = "sh -c 'python -m app.worker.run'"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3

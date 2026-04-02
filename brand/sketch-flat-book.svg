@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="white"/>
+  <!-- Left page -->
+  <rect x="120" y="120" width="130" height="200" rx="16" fill="#1a1f36" opacity="0.07" stroke="#1a1f36" stroke-width="6"/>
+  <!-- Right page -->
+  <rect x="250" y="120" width="140" height="200" rx="16" fill="#e8a849" opacity="0.1" stroke="#e8a849" stroke-width="6"/>
+  <!-- Spine -->
+  <line x1="250" y1="110" x2="250" y2="330" stroke="#1a1f36" stroke-width="10" stroke-linecap="round"/>
+  <!-- Left text lines -->
+  <line x1="146" y1="170" x2="224" y2="170" stroke="#1a1f36" stroke-width="5" stroke-linecap="round" opacity="0.2"/>
+  <line x1="146" y1="200" x2="214" y2="200" stroke="#1a1f36" stroke-width="5" stroke-linecap="round" opacity="0.15"/>
+  <line x1="146" y1="230" x2="224" y2="230" stroke="#1a1f36" stroke-width="5" stroke-linecap="round" opacity="0.1"/>
+  <line x1="146" y1="260" x2="200" y2="260" stroke="#1a1f36" stroke-width="5" stroke-linecap="round" opacity="0.08"/>
+  <!-- Right text lines -->
+  <line x1="276" y1="170" x2="364" y2="170" stroke="#e8a849" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+  <line x1="276" y1="200" x2="350" y2="200" stroke="#e8a849" stroke-width="5" stroke-linecap="round" opacity="0.4"/>
+  <line x1="276" y1="230" x2="364" y2="230" stroke="#e8a849" stroke-width="5" stroke-linecap="round" opacity="0.3"/>
+  <line x1="276" y1="260" x2="340" y2="260" stroke="#e8a849" stroke-width="5" stroke-linecap="round" opacity="0.2"/>
+  <!-- Wordmark -->
+  <text x="256" y="420" font-family="Inter, sans-serif" font-weight="500" font-size="72" fill="#1a1f36" text-anchor="middle" letter-spacing="-1">Unfolda</text>
+</svg>
