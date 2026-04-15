@@ -88,13 +88,13 @@ State fields:
 |---|---|---|
 | `task_id` | string | Identifier of the task in `docs/TASKS.md`; `"new"` for tasks not yet created |
 | `artifact_id` | string or null | Identifier of the artifact currently under review; `null` when no artifact is active |
-| `current_stage` | enum | Must be one of: `discovery` `product` `analytics` `architecture` `implementation` `validation` `complete` |
+| `current_stage` | enum | Must be one of: `onboarding` `discovery` `product` `analytics` `architecture` `implementation` `validation` `complete` |
 | `quality_loop_iteration` | int | Current iteration number when quality loop is active; `0` when inactive |
 | `builder_cycle_count` | int | Number of consecutive Builder correction cycles on the current task |
 | `analytics_used` | bool | Whether Analytics Architect was invoked for this feature |
 | `product_spec_accepted` | bool | Whether Product's feature specification has passed the quality loop |
 
-`current_stage` must always be set to one of the enum values above — never free text. The value maps to workflow position as follows: `discovery` while Discovery is active; `product` while Product, its quality loop, or Designer is active; `analytics` while Analytics Architect or its quality loop is active; `architecture` while Architect, its quality loop, or Test Strategist is active; `implementation` while Builder, Analytics Validator, or Security Reviewer is active; `validation` while Reviewer is active; `complete` after Reviewer approval and all completion conditions are met.
+`current_stage` must always be set to one of the enum values above — never free text. The value maps to workflow position as follows: `onboarding` while any Onboarding Workflow phase is active; `discovery` while Discovery is active in the normal development workflow; `product` while Product, its quality loop, or Designer is active; `analytics` while Analytics Architect or its quality loop is active; `architecture` while Architect, its quality loop, or Test Strategist is active; `implementation` while Builder, Analytics Validator, or Security Reviewer is active; `validation` while Reviewer is active; `complete` after Reviewer approval and all completion conditions are met.
 
 **State lifecycle rules:**
 
@@ -126,12 +126,34 @@ State must never carry over from a previous task. Each new `task_id` starts with
 
 ---
 
+## Onboarding detection
+
+Before classifying any request, check whether the Onboarding Workflow should activate.
+
+The Onboarding Workflow activates when **any** of the following conditions are true:
+
+- `docs/PRD.md` is missing or contains only a placeholder comment (e.g. `<!-- placeholder -->`)
+- `docs/ARCHITECTURE.md` is missing or contains only a placeholder comment
+- the user explicitly requests onboarding (e.g. "Start a new project", "Запускаем новый проект")
+
+When the onboarding condition is detected:
+- set `current_stage: "onboarding"` in workflow state
+- route to `Discovery` (Phase 1 of the Onboarding Workflow)
+- do not route to normal development workflow agents until onboarding completes
+
+The Onboarding Workflow completes after Phase 5 (Iteration Manager generates `project.config.yaml`, re-renders templates, creates stubs, commits). After completion, all subsequent requests follow the normal development workflow.
+
+The Onboarding Workflow runs exactly once per project. If project docs are already complete, the onboarding condition is not triggered even if the user says "start a new project" in a context where docs exist.
+
+---
+
 ## Request classification
 
 Classify every incoming request before selecting an agent.
 
 | Request type | Description |
 |---|---|
+| `onboarding` | Project docs are missing or empty stubs; Onboarding Workflow must run first |
 | `technical_uncertainty` | Multiple implementation approaches possible; right choice is unclear |
 | `feature_idea` | Rough feature request with unclear scope or missing acceptance criteria |
 | `analytics_required_feature` | Feature with user behavior, measurable outcomes, or observability needs |
@@ -151,6 +173,7 @@ Classify every incoming request before selecting an agent.
 
 | Condition | Start with |
 |---|---|
+| Onboarding condition detected (project docs missing or empty) | `Discovery` (Onboarding Phase 1) |
 | Technical uncertainty; multiple approaches; unclear architecture direction; market/competitive research needed | `Discovery` |
 | Feature idea; scope unclear; task not yet in `docs/TASKS.md` | `Product` |
 | Accepted feature specification has user-facing UI and needs design review | `Designer` |
@@ -184,6 +207,21 @@ Maximum Builder correction cycles per task before escalation: **3**. If `builder
 ## Stage transition logic
 
 After each agent completes, determine the next step based on the agent's output and current workflow state.
+
+### Onboarding workflow transitions
+
+| Previous agent | Result | Next action |
+|---|---|---|
+| `Discovery` (onboarding Phase 1) | Discovery Brief produced | → `Product` (onboarding Phase 2) |
+| `Product` (onboarding Phase 2) | PRD produced | → Quality loop (invoke `Spec Reviewer`) |
+| `Product` → Quality loop (onboarding) | Gatekeeper `accept`; product has UI | → `Designer` (onboarding Phase 3) |
+| `Product` → Quality loop (onboarding) | Gatekeeper `accept`; backend-only product | → `Architect` (onboarding Phase 4) |
+| `Designer` (onboarding Phase 3) | Design / brand approved | → `Architect` (onboarding Phase 4) |
+| `Architect` (onboarding Phase 4) | Architecture docs produced | → Quality loop (invoke `Spec Reviewer`) |
+| `Architect` → Quality loop (onboarding) | Gatekeeper `accept` | → Iteration Manager onboarding finalisation (Phase 5) |
+| Iteration Manager (onboarding Phase 5) | Config generated, templates rendered, stubs created, committed | → Onboarding complete; normal development workflow |
+
+During the Onboarding Workflow, `current_stage` is `onboarding` throughout all phases. After Phase 5 completes, reset to normal stage tracking on the next request.
 
 ### Implementation workflow transitions
 
@@ -306,7 +344,7 @@ Iteration Manager always responds with a single JSON block.
   "workflow_state": {
     "task_id": "<task id from docs/TASKS.md, or 'new'>",
     "artifact_id": null,
-    "current_stage": "discovery | product | analytics | architecture | implementation | validation | complete",
+    "current_stage": "onboarding | discovery | product | analytics | architecture | implementation | validation | complete",
     "quality_loop_iteration": 0,
     "builder_cycle_count": 0,
     "analytics_used": false,
@@ -333,7 +371,7 @@ Iteration Manager always responds with a single JSON block.
   "workflow_state": {
     "task_id": "<task id or 'new'>",
     "artifact_id": "<artifact id or null>",
-    "current_stage": "discovery | product | analytics | architecture | implementation | validation | complete",
+    "current_stage": "onboarding | discovery | product | analytics | architecture | implementation | validation | complete",
     "quality_loop_iteration": 0,
     "builder_cycle_count": 0,
     "analytics_used": false,
