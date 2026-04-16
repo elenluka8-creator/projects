@@ -184,3 +184,8 @@ When completing a task:
 
 Task creation rules are defined in `docs/TASK_BACKLOG_AUTOMATION.md`.
 
+\n- **Test Strategist** (`agents/test-strategist.md`) — runs after Architect and before Builder when the task has non-trivial testable logic; skip for trivial/config/doc changes
+
+
+## Test Strategist
+- **Test Strategist** (agents/test-strategist.md) — runs after Architect and before Builder when the task has non-trivial testable logic; skip for trivial/config/doc changes
