@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { AppShell } from "@/components/AppShell";
 import { JobStatusBadge } from "@/components/JobStatusBadge";
-import { api, ApiError, type Job, type DownloadUrlResponse } from "@/lib/api";
+import { api, ApiError, type Job, type DownloadUrlResponse, type UserProfile } from "@/lib/api";
 
 const POLL_INTERVAL_MS = 4000;
 const ACTIVE_STATUSES = new Set(["validating", "queued", "processing"]);
@@ -173,6 +173,11 @@ export default function JobDetailPage() {
   const locale = useLocale();
   const { id } = useParams<{ id: string }>();
   const { job, loading, error } = useJobDetail(id);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+
+  useEffect(() => {
+    api.getProfile().then((p: UserProfile) => setUserEmail(p.email)).catch(() => { /* non-critical */ });
+  }, []);
 
   if (loading) {
     return (
@@ -239,7 +244,13 @@ export default function JobDetailPage() {
         <div className="mb-6 flex items-start justify-between gap-4">
           <div>
             <h1 className="font-heading text-2xl" style={{ color: "var(--color-navy)" }}>
-              {job.book_title ?? t("untitled")}
+              {job.book_title ?? t("untitledDate", {
+                date: new Date(job.created_at).toLocaleDateString(locale, {
+                  day: "numeric",
+                  month: "short",
+                  year: "numeric",
+                }),
+              })}
             </h1>
             {job.book_author && (
               <p className="mt-1 text-sm" style={{ color: "var(--color-navy)", opacity: 0.6 }}>
@@ -273,15 +284,22 @@ export default function JobDetailPage() {
                 />
               </svg>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium" style={{ color: "var(--color-navy)" }}>
-                  {job.status === "queued"
-                    ? t("queuedStatus")
-                    : job.pipeline_stage
-                    ? t("processingStage", {
-                        stage: translateStage(t, job.pipeline_stage),
-                      })
-                    : t("processingBook")}
-                </p>
+                {job.status === "queued" ? (
+                  <>
+                    <p className="text-sm font-medium" style={{ color: "var(--color-navy)" }}>
+                      {t("queuedTitle")}
+                    </p>
+                    <p className="mt-1 text-xs leading-relaxed" style={{ color: "var(--color-navy)", opacity: 0.7 }}>
+                      {t("queuedSubtitle", { email: userEmail ?? "…" })}
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-sm font-medium" style={{ color: "var(--color-navy)" }}>
+                    {job.pipeline_stage
+                      ? t("processingStage", { stage: translateStage(t, job.pipeline_stage) })
+                      : t("processingBook")}
+                  </p>
+                )}
                 {(job.progress_percent ?? 0) > 0 && (
                   <>
                     <div
@@ -304,6 +322,9 @@ export default function JobDetailPage() {
                 )}
               </div>
             </div>
+            <p className="mt-3 text-xs" style={{ color: "var(--color-navy)", opacity: 0.5 }}>
+              {t("queuedCloseHint")}
+            </p>
           </div>
         )}
 
