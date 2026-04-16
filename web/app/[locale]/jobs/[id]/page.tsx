@@ -239,7 +239,16 @@ export default function JobDetailPage() {
         <div className="mb-6 flex items-start justify-between gap-4">
           <div>
             <h1 className="font-heading text-2xl" style={{ color: "var(--color-navy)" }}>
-              {job.book_title ?? t("untitled")}
+              {job.book_title ??
+                (job.source_filename
+                  ? job.source_filename.replace(/\.[^.]+$/, "")
+                  : t("untitledDate", {
+                      date: new Date(job.created_at).toLocaleDateString(locale, {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      }),
+                    }))}
             </h1>
             {job.book_author && (
               <p className="mt-1 text-sm" style={{ color: "var(--color-navy)", opacity: 0.6 }}>
@@ -249,6 +258,12 @@ export default function JobDetailPage() {
           </div>
           <JobStatusBadge variant="detail" status={job.status} />
         </div>
+
+        {isActive && job.status === "queued" && (
+          <p className="mb-3 text-sm" style={{ color: "var(--color-navy)", opacity: 0.5 }}>
+            {t("queuedPageHint")}
+          </p>
+        )}
 
         {isActive && (
           <div
@@ -273,15 +288,24 @@ export default function JobDetailPage() {
                 />
               </svg>
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-medium" style={{ color: "var(--color-navy)" }}>
-                  {job.status === "queued"
-                    ? t("queuedStatus")
-                    : job.pipeline_stage
-                    ? t("processingStage", {
-                        stage: translateStage(t, job.pipeline_stage),
-                      })
-                    : t("processingBook")}
-                </p>
+                {job.status === "queued" ? (
+                  <>
+                    <p className="text-sm font-medium" style={{ color: "var(--color-navy)" }}>
+                      {t("queuedStatusTitle")}
+                    </p>
+                    <p className="mt-1 text-sm" style={{ color: "var(--color-navy)", opacity: 0.7 }}>
+                      {t("queuedStatusSubtitle")}
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-sm font-medium" style={{ color: "var(--color-navy)" }}>
+                    {job.pipeline_stage
+                      ? t("processingStage", {
+                          stage: translateStage(t, job.pipeline_stage),
+                        })
+                      : t("processingBook")}
+                  </p>
+                )}
                 {(job.progress_percent ?? 0) > 0 && (
                   <>
                     <div

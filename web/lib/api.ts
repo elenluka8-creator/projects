@@ -84,6 +84,7 @@ export interface Job {
   retry_eligible: boolean;
   book_title: string | null;
   book_author: string | null;
+  source_filename: string | null;
   progress_percent?: number;
   pipeline_stage?: string | null;
   eta_seconds_remaining?: number | null;
