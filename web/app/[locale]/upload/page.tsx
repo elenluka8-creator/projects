@@ -211,30 +211,51 @@ function DropZone({
   );
 }
 
-function SourceLanguageCard({
-  detectedLanguage,
+function PrecheckCard({
+  precheck,
+  filename,
   locale,
   t,
 }: {
-  detectedLanguage: string | null;
+  precheck: PrecheckResult;
+  filename: string;
   locale: string;
   t: ReturnType<typeof useTranslations<"upload">>;
 }) {
-  const langName = detectedLanguage
-    ? new Intl.DisplayNames([locale], { type: "language" }).of(detectedLanguage) ?? detectedLanguage
+  const langName = precheck.detected_language
+    ? new Intl.DisplayNames([locale], { type: "language" }).of(precheck.detected_language) ?? precheck.detected_language
     : t("precheck_langUnknown");
 
   return (
     <div
-      className="rounded-lg border px-4 py-3 flex items-center gap-3"
+      className="rounded-lg border px-4 py-3 space-y-2"
       style={{ borderColor: "#d4cfc8", backgroundColor: "#faf6ef" }}
     >
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <circle cx="8" cy="8" r="7" stroke="#e8a849" strokeWidth="1.5" />
-        <path d="M8 5v3.5l2 1.5" stroke="#e8a849" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-      <p className="text-sm" style={{ color: "var(--color-navy)", opacity: 0.7 }}>
-        {t("sourceLangDetected")} <strong style={{ opacity: 1 }}>{langName}</strong>
+      {precheck.book_title ? (
+        <div>
+          <p className="text-sm font-semibold truncate" style={{ color: "var(--color-navy)" }}>
+            {precheck.book_title}
+          </p>
+          {precheck.book_author && (
+            <p className="text-xs" style={{ color: "var(--color-navy)", opacity: 0.55 }}>
+              {precheck.book_author}
+            </p>
+          )}
+        </div>
+      ) : (
+        <p className="text-sm font-medium truncate" style={{ color: "var(--color-navy)" }}>
+          {filename}
+        </p>
+      )}
+      <p className="text-xs flex items-center gap-1.5" style={{ color: "var(--color-navy)", opacity: 0.6 }}>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <circle cx="6" cy="6" r="5" stroke="#e8a849" strokeWidth="1.2" />
+          <path d="M6 4v2.5l1.5 1" stroke="#e8a849" strokeWidth="1.2" strokeLinecap="round" />
+        </svg>
+        {t("sourceLangDetected")} <strong>{langName}</strong>
+        {precheck.word_count != null && (
+          <span style={{ opacity: 0.7 }}>· {precheck.word_count.toLocaleString(locale)} {t("precheck_words").toLowerCase()}</span>
+        )}
       </p>
     </div>
   );
@@ -651,9 +672,10 @@ export default function UploadPage() {
         {phase.name === "done" && (
           <form onSubmit={handleSubmit} className="space-y-6">
 
-            {/* Source language detected */}
-            <SourceLanguageCard
-              detectedLanguage={phase.precheck.detected_language}
+            {/* Book info + detected source language */}
+            <PrecheckCard
+              precheck={phase.precheck}
+              filename={phase.filename}
               locale={locale}
               t={t}
             />

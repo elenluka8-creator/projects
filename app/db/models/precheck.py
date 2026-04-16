@@ -50,6 +50,9 @@ class PreCheckResult(Base):
     word_count: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     chapter_count: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     has_images: Mapped[Optional[bool]] = mapped_column(Boolean, nullable=True)
+    # Populated on completed status — advisory title/author from EPUB metadata
+    book_title: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    book_author: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     # Populated on failed status
     error_code: Mapped[Optional[str]] = mapped_column(String(80), nullable=True)
     created_at: Mapped[datetime] = mapped_column(

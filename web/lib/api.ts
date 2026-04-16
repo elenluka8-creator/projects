@@ -108,6 +108,8 @@ export interface PrecheckResult {
   precheck_id: string;
   word_count: number | null;
   chapter_count: number | null;
+  book_title: string | null;
+  book_author: string | null;
 }
 
 export interface CreditEstimate {
