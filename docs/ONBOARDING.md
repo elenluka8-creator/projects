@@ -272,6 +272,8 @@ After setup, agents expect to find these files in your project:
 | `docs/LESSONS_LEARNED.md` | **Yes** | Workflow lessons — starts empty; IM appends |
 | `docs/KNOWN_PATTERNS.md` | **Yes** | Validated patterns — starts empty; IM appends |
 | `docs/BRAND.md` | optional | Required only for UI/design tasks |
+| `docs/DEPLOY_CONTRACTS.md` | optional | Required for deployment-related tasks |
+| `docs/MCP_TOOLS.md` | optional | Required for tool-agents (Illustrator) |
 
 Agents will ask you to fill in missing required docs before proceeding. They will not fabricate missing context.
 
@@ -322,6 +324,8 @@ Quick reference for what to edit yourself vs what is managed by the framework:
 | `docs/KNOWN_PATTERNS.md` | Iteration Manager (append when a pattern is validated); all agents read |
 | `docs/FEATURES.md` | Agents (Product) |
 | `agents/*.md` | Framework (`sync.py` + `setup.py`) |
+| `agents/discovery-modes/*.md` | Framework |
+| `agents/im-modes/*.md` | Framework |
 | `AGENTS.md` | Framework |
 | `CLAUDE.md` | Framework |
 | `.cursor/rules.md` | Framework |
@@ -335,6 +339,8 @@ Quick reference for what to edit yourself vs what is managed by the framework:
 | `docs/FEATURE_TEMPLATE.md` | Framework |
 | `docs/TASK_TEMPLATE.md` | Framework |
 | `docs/ONBOARDING.md` | Framework |
+| `docs/MCP_TOOLS.md` | You (tool-agent MCP server setup) |
+| `docs/DEPLOY_CONTRACTS.md` | You (deployment requirements, env vars, infra) |
 
 ---
 
