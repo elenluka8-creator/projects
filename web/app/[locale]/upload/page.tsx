@@ -110,6 +110,17 @@ function validateFile(file: File, t: ReturnType<typeof useTranslations<"upload">
 }
 
 // ---------------------------------------------------------------------------
+// Normalize text: collapse whitespace, trim
+// ---------------------------------------------------------------------------
+
+function normalizeText(text: string): string {
+  return text
+    .replace(/\n+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// ---------------------------------------------------------------------------
 // Shared sub-components
 // ---------------------------------------------------------------------------
 
@@ -200,48 +211,31 @@ function DropZone({
   );
 }
 
-function PrecheckCard({
-  precheck,
-  filename,
-  t,
+function SourceLanguageCard({
+  detectedLanguage,
   locale,
+  t,
 }: {
-  precheck: PrecheckResult;
-  filename: string;
-  t: ReturnType<typeof useTranslations<"upload">>;
+  detectedLanguage: string | null;
   locale: string;
+  t: ReturnType<typeof useTranslations<"upload">>;
 }) {
-  const lang = precheck.detected_language
-    ? new Intl.DisplayNames([locale], { type: "language" }).of(precheck.detected_language) ??
-      precheck.detected_language
+  const langName = detectedLanguage
+    ? new Intl.DisplayNames([locale], { type: "language" }).of(detectedLanguage) ?? detectedLanguage
     : t("precheck_langUnknown");
 
   return (
-    <div className="card space-y-4">
-      <div>
-        <p className="label">{t("precheck_file")}</p>
-        <p className="text-sm font-medium truncate" style={{ color: "var(--color-navy)" }}>
-          {filename}
-        </p>
-      </div>
-      <div className="grid grid-cols-3 gap-4">
-        <div>
-          <p className="label">{t("precheck_language")}</p>
-          <p className="text-sm" style={{ color: "var(--color-navy)" }}>{lang}</p>
-        </div>
-        <div>
-          <p className="label">{t("precheck_words")}</p>
-          <p className="text-sm" style={{ color: "var(--color-navy)" }}>
-            {precheck.word_count != null ? precheck.word_count.toLocaleString(locale) : "—"}
-          </p>
-        </div>
-        <div>
-          <p className="label">{t("precheck_chapters")}</p>
-          <p className="text-sm" style={{ color: "var(--color-navy)" }}>
-            {precheck.chapter_count ?? "—"}
-          </p>
-        </div>
-      </div>
+    <div
+      className="rounded-lg border px-4 py-3 flex items-center gap-3"
+      style={{ borderColor: "#d4cfc8", backgroundColor: "#faf6ef" }}
+    >
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <circle cx="8" cy="8" r="7" stroke="#e8a849" strokeWidth="1.5" />
+        <path d="M8 5v3.5l2 1.5" stroke="#e8a849" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+      <p className="text-sm" style={{ color: "var(--color-navy)", opacity: 0.7 }}>
+        {t("sourceLangDetected")} <strong style={{ opacity: 1 }}>{langName}</strong>
+      </p>
     </div>
   );
 }
@@ -309,12 +303,14 @@ function SelectField({
   value,
   onChange,
   options,
+  error,
 }: {
   id: string;
   label: string;
   value: string;
   onChange: (v: string) => void;
   options: { value: string; label: string; description?: string }[];
+  error?: string | null;
 }) {
   const selected = options.find((o) => o.value === value);
   return (
@@ -325,17 +321,49 @@ function SelectField({
         className="input-field mt-1"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        style={{ maxWidth: "320px" }}
+        style={{ maxWidth: "320px", borderColor: error ? "var(--color-error)" : undefined }}
       >
         {options.map((o) => (
           <option key={o.value} value={o.value}>{o.label}</option>
         ))}
       </select>
-      {selected?.description && (
+      {error && <p className="error-text mt-1">{error}</p>}
+      {!error && selected?.description && (
         <p className="mt-1 text-xs" style={{ color: "var(--color-navy)", opacity: 0.55 }}>
           {selected.description}
         </p>
       )}
+    </div>
+  );
+}
+
+function WhatYouGetBlock({ mode, t }: {
+  mode: "translate" | "guided";
+  t: ReturnType<typeof useTranslations<"upload">>;
+}) {
+  const items = mode === "guided"
+    ? [t("wyg_translated"), t("wyg_format"), t("wyg_explanations")]
+    : [t("wyg_translated"), t("wyg_format"), t("wyg_cancel")];
+
+  return (
+    <div
+      className="rounded-lg px-4 py-4"
+      style={{ backgroundColor: "rgba(232,168,73,0.07)", border: "1px solid rgba(232,168,73,0.4)" }}
+    >
+      <p className="text-xs font-semibold mb-2 uppercase tracking-wide" style={{ color: "var(--color-navy)", opacity: 0.5 }}>
+        {t("wyg_title")}
+      </p>
+      <ul className="space-y-1">
+        {items.map((item, i) => (
+          <li key={i} className="flex items-center gap-2 text-sm" style={{ color: "var(--color-navy)" }}>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <circle cx="7" cy="7" r="6.5" fill="rgba(232,168,73,0.2)" stroke="#e8a849" />
+              <path d="M4.5 7l2 2 3-3" stroke="#1a1f36" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -355,12 +383,6 @@ function BalanceDisplay({
 
   const remaining = estimate !== null ? balance - estimate.estimated_credits : null;
   const insufficient = remaining !== null && remaining < 0;
-
-  const tierLabel = (tier: string) => {
-    if (tier === "standard") return t("tierStandard");
-    if (tier === "experimental") return t("tierExperimental");
-    return tier;
-  };
 
   const navy = "#1a1f36";
   const row: React.CSSProperties = {
@@ -425,10 +447,11 @@ export default function UploadPage() {
 
   const [mode, setMode] = useState<"translate" | "guided">("translate");
   const [qualityTier, setQualityTier] = useState<"express" | "standard" | "premium">("express");
-  const [targetLanguage, setTargetLanguage] = useState("ru");
+  const [targetLanguage, setTargetLanguage] = useState("en");
   const [translationStyle, setTranslationStyle] = useState("natural");
   const [userLevel, setUserLevel] = useState("B1");
   const [explanationDepth, setExplanationDepth] = useState("standard");
+  const [advancedOpen, setAdvancedOpen] = useState(false);
 
   const [balance, setBalance] = useState<CreditsBalance | null>(null);
   const [estimate, setEstimate] = useState<CreditEstimate | null>(null);
@@ -436,6 +459,22 @@ export default function UploadPage() {
   const [estimateError, setEstimateError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const detectedLanguage = phase.name === "done" ? (phase.precheck.detected_language ?? "") : "";
+  const wordCount = phase.name === "done" ? (phase.precheck.word_count ?? 0) : 0;
+
+  // Default target language to first language that is NOT the detected source language
+  useEffect(() => {
+    if (phase.name === "done" && detectedLanguage) {
+      const first = TARGET_LANGUAGE_CODES.find((c) => c !== detectedLanguage);
+      if (first) setTargetLanguage(first);
+    }
+  }, [phase.name, detectedLanguage]);
+
+  const sameLangError =
+    phase.name === "done" && detectedLanguage && detectedLanguage === targetLanguage
+      ? t("error_sameLang")
+      : null;
 
   const MODES = useMemo(() => [
     { value: "translate" as const, label: t("modeTranslateLabel"), description: t("modeTranslateDesc") },
@@ -470,17 +509,19 @@ export default function UploadPage() {
   ], [t]);
 
   const QUALITY_TIERS = useMemo(() => [
-    { value: "express"  as const, label: t("tierExpressLabel"),  description: t("tierExpressDesc")  },
+    {
+      value: "express" as const,
+      label: t("tierExpressLabel"),
+      description: t("tierExpressDesc"),
+      badge: t("tierRecommended"),
+    },
     { value: "standard" as const, label: t("tierStandardLabel"), description: t("tierStandardDesc") },
-    { value: "premium"  as const, label: t("tierPremiumLabel"),  description: t("tierPremiumDesc")  },
+    { value: "premium" as const, label: t("tierPremiumLabel"), description: t("tierPremiumDesc") },
   ], [t]);
 
   useEffect(() => {
     api.getCredits().then(setBalance).catch(() => { /* non-critical */ });
   }, []);
-
-  const wordCount = phase.name === "done" ? (phase.precheck.word_count ?? 0) : 0;
-  const detectedLanguage = phase.name === "done" ? (phase.precheck.detected_language ?? "") : "";
 
   const fetchEstimate = useCallback(
     async (m: string, lang: string, style: string, level: string, depth: string, tier: string, wc: number, srcLang: string) => {
@@ -518,6 +559,7 @@ export default function UploadPage() {
     !submitting &&
     !estimateLoading &&
     !insufficient &&
+    !sameLangError &&
     (estimate?.is_valid ?? true);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -607,83 +649,118 @@ export default function UploadPage() {
         )}
 
         {phase.name === "done" && (
-          <form onSubmit={handleSubmit} className="space-y-8">
-            <PrecheckCard precheck={phase.precheck} filename={phase.filename} t={t} locale={locale} />
+          <form onSubmit={handleSubmit} className="space-y-6">
 
-            <div style={{ borderTop: "1px solid #ede8e0" }} />
+            {/* Source language detected */}
+            <SourceLanguageCard
+              detectedLanguage={phase.precheck.detected_language}
+              locale={locale}
+              t={t}
+            />
 
-            <h2 className="font-heading text-lg" style={{ color: "var(--color-navy)" }}>
-              {t("configTitle")}
-            </h2>
-
-            <fieldset>
-              <legend className="label mb-3" style={{ color: "var(--color-navy)" }}>
-                {t("modeFieldset")}
-              </legend>
-              <div className="space-y-3" role="radiogroup">
-                {MODES.map((m) => (
-                  <ModeCard
-                    key={m.value}
-                    label={m.label}
-                    description={m.description}
-                    selected={mode === m.value}
-                    onSelect={() => setMode(m.value)}
-                  />
-                ))}
-              </div>
-            </fieldset>
-
-            <fieldset>
-              <legend className="label mb-3" style={{ color: "var(--color-navy)" }}>
-                {t("tierSectionLabel")}
-              </legend>
-              <div className="space-y-3" role="radiogroup">
-                {QUALITY_TIERS.map((tier) => (
-                  <ModeCard
-                    key={tier.value}
-                    label={tier.label}
-                    description={tier.description}
-                    selected={qualityTier === tier.value}
-                    onSelect={() => setQualityTier(tier.value)}
-                    badge={tier.value === "express" ? "Recommended" : undefined}
-                  />
-                ))}
-              </div>
-            </fieldset>
-
+            {/* Target language — primary, always visible */}
             <SelectField
               id="target-language"
               label={t("targetLangLabel")}
               value={targetLanguage}
               onChange={setTargetLanguage}
               options={TARGET_LANGUAGES}
+              error={sameLangError}
             />
 
-            <SelectField
-              id="translation-style"
-              label={t("styleLabel")}
-              value={translationStyle}
-              onChange={setTranslationStyle}
-              options={TRANSLATION_STYLES}
-            />
+            <div style={{ borderTop: "1px solid #ede8e0" }} />
 
-            {mode === "guided" && (
-              <>
+            {/* What you get */}
+            <WhatYouGetBlock mode={mode} t={t} />
+
+            {/* Advanced settings toggle */}
+            <div>
+              <button
+                type="button"
+                className="flex items-center gap-2 text-sm"
+                style={{ color: "var(--color-navy)", opacity: 0.6 }}
+                onClick={() => setAdvancedOpen((o) => !o)}
+                aria-expanded={advancedOpen}
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 14 14"
+                  fill="none"
+                  className="transition-transform"
+                  style={{ transform: advancedOpen ? "rotate(90deg)" : "rotate(0deg)" }}
+                  aria-hidden="true"
+                >
+                  <path d="M4 2l6 5-6 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                {advancedOpen ? t("advancedHide") : t("advancedShow")}
+              </button>
+            </div>
+
+            {advancedOpen && (
+              <div className="space-y-6 rounded-lg border p-4" style={{ borderColor: "#ede8e0" }}>
+                <fieldset>
+                  <legend className="label mb-3" style={{ color: "var(--color-navy)" }}>
+                    {t("modeFieldset")}
+                  </legend>
+                  <div className="space-y-3" role="radiogroup">
+                    {MODES.map((m) => (
+                      <ModeCard
+                        key={m.value}
+                        label={m.label}
+                        description={m.description}
+                        selected={mode === m.value}
+                        onSelect={() => setMode(m.value)}
+                      />
+                    ))}
+                  </div>
+                </fieldset>
+
+                <fieldset>
+                  <legend className="label mb-3" style={{ color: "var(--color-navy)" }}>
+                    {t("tierSectionLabel")}
+                  </legend>
+                  <div className="space-y-3" role="radiogroup">
+                    {QUALITY_TIERS.map((tier) => (
+                      <ModeCard
+                        key={tier.value}
+                        label={tier.label}
+                        description={tier.description}
+                        selected={qualityTier === tier.value}
+                        onSelect={() => setQualityTier(tier.value)}
+                        badge={tier.badge}
+                      />
+                    ))}
+                  </div>
+                </fieldset>
+
                 <SelectField
-                  id="user-level"
-                  label={t("levelLabel")}
-                  value={userLevel}
-                  onChange={setUserLevel}
-                  options={USER_LEVELS}
+                  id="translation-style"
+                  label={t("styleLabel")}
+                  value={translationStyle}
+                  onChange={setTranslationStyle}
+                  options={TRANSLATION_STYLES}
                 />
-                <SelectField
-                  id="explanation-depth"
-                  label={t("depthLabel")}
-                  value={explanationDepth}
-                  onChange={setExplanationDepth}
-                  options={EXPLANATION_DEPTHS}
-                />
-              </>
+
+                {mode === "guided" && (
+                  <>
+                    <SelectField
+                      id="user-level"
+                      label={t("levelLabel")}
+                      value={userLevel}
+                      onChange={setUserLevel}
+                      options={USER_LEVELS}
+                    />
+                    <SelectField
+                      id="explanation-depth"
+                      label={t("depthLabel")}
+                      value={explanationDepth}
+                      onChange={setExplanationDepth}
+                      options={EXPLANATION_DEPTHS}
+                    />
+                  </>
+                )}
+              </div>
             )}
 
             {estimateError ? (

@@ -317,20 +317,31 @@ def _build_chapter_body(
     return "\n".join(parts)
 
 
+def _normalize_text(text: str) -> str:
+    """Collapse excess whitespace/newlines in text before HTML rendering."""
+    import re as _re
+    return _re.sub(r"\s+", " ", text).strip()
+
+
 def _build_block_html(block: FormattedBlock, mode: str, labels: Optional[dict] = None) -> str:
     """Generate the HTML fragment for one FormattedBlock.
 
-    Translate mode: labelled translation paragraph.
-    Guided mode:    ORIGINAL → TRANSLATION → NOTES (optional) → ORIGINAL (REPEAT),
-                    each section preceded by a small uppercase grey label in the
-                    target language.
+    Translate mode: labelled translation paragraph only.
+    Guided mode:    ORIGINAL → TRANSLATION → NOTES (optional).
+                    No repeated original — the structure is: read the original,
+                    read the translation, read the notes.  The original_repeat
+                    field is intentionally omitted here to avoid content
+                    duplication in the output EPUB.
     """
     if labels is None:
         labels = _BLOCK_LABELS["en"]
-    t = html.escape(block.translation)
+
+    translation = _normalize_text(block.translation)
+    t = html.escape(translation)
+
     if mode == "guided":
-        o = html.escape(block.original)
-        rep = html.escape(block.original_repeat or block.original)
+        original = _normalize_text(block.original)
+        o = html.escape(original)
 
         expl_html = ""
         if block.explanations:
@@ -341,14 +352,15 @@ def _build_block_html(block: FormattedBlock, mode: str, labels: Optional[dict] =
                 for line in (ln.strip() for ln in n.splitlines())
                 if line
             ]
-            notes = "".join(
-                f'    <p class="explanation">{html.escape(n)}</p>\n'
-                for n in note_items
-            )
-            expl_html = (
-                f'  <span class="block-label">{html.escape(labels["notes"])}</span>\n'
-                f'  <div class="explanations">\n{notes}  </div>\n'
-            )
+            if note_items:
+                notes = "".join(
+                    f'    <p class="explanation">{html.escape(n)}</p>\n'
+                    for n in note_items
+                )
+                expl_html = (
+                    f'  <span class="block-label">{html.escape(labels["notes"])}</span>\n'
+                    f'  <div class="explanations">\n{notes}  </div>\n'
+                )
 
         return (
             f'<div class="unfolda-block guided">\n'
@@ -357,8 +369,6 @@ def _build_block_html(block: FormattedBlock, mode: str, labels: Optional[dict] =
             f'  <span class="block-label">{html.escape(labels["translation"])}</span>\n'
             f'  <p class="translation">{t}</p>\n'
             f'{expl_html}'
-            f'  <span class="block-label">{html.escape(labels["original_repeat"])}</span>\n'
-            f'  <p class="original-repeat">{rep}</p>\n'
             f'</div>'
         )
     else:

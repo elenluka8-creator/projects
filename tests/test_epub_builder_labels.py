@@ -107,7 +107,8 @@ def test_guided_block_uses_ru_labels() -> None:
     html = _build_block_html(block, "guided", labels)
     assert "Оригинал" in html
     assert "Перевод" in html
-    assert "Оригинал (повтор)" in html
+    # original_repeat section intentionally removed — original shown once
+    assert "Оригинал (повтор)" not in html
     assert "Original" not in html  # English label must not appear
     assert "Translation" not in html
 
@@ -125,7 +126,8 @@ def test_guided_block_sr_labels() -> None:
     labels = _get_block_labels("sr")
     html = _build_block_html(block, "guided", labels)
     assert "Prevod" in html
-    assert "Original (ponavljanje)" in html
+    # original_repeat section intentionally removed
+    assert "Original (ponavljanje)" not in html
 
 
 def test_translate_mode_has_no_labels() -> None:
