@@ -34,6 +34,8 @@ class PreCheckResponse(BaseModel):
     has_images: Optional[bool] = None
     error_code: Optional[str] = None
     completed_at: Optional[str] = None
+    book_title: Optional[str] = None
+    book_author: Optional[str] = None
 
 
 def _to_response(record: PreCheckResult) -> PreCheckResponse:
@@ -50,6 +52,8 @@ def _to_response(record: PreCheckResult) -> PreCheckResponse:
         completed_at=(
             record.completed_at.isoformat() if record.completed_at is not None else None
         ),
+        book_title=record.book_title,
+        book_author=record.book_author,
     )
 
 

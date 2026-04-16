@@ -136,6 +136,8 @@ def run_precheck(
     record.word_count = parsed.source_word_count
     record.chapter_count = len(parsed.chapter_refs)
     record.has_images = has_images
+    record.book_title = parsed.title or None
+    record.book_author = parsed.author or None
     record.completed_at = datetime.now(timezone.utc)
     session.flush()
 

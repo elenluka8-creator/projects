@@ -23,6 +23,7 @@ from app.api.errors import build_safe_error_detail
 from app.config.policy import get_tier_model
 from app.logging.structured import log_structured
 from app.db.models.document import Document
+from app.db.models.precheck import PreCheckResult
 import logging
 from app.db.models.job import Job
 from app.db.session import get_db_session
@@ -115,13 +116,21 @@ class DownloadUrlResponse(BaseModel):
     expires_in_seconds: int
 
 
-def _job_to_response(job: Job, document: Optional[Document] = None) -> JobResponse:
+def _job_to_response(
+    job: Job,
+    document: Optional[Document] = None,
+    precheck: Optional[PreCheckResult] = None,
+) -> JobResponse:
     now = datetime.now(timezone.utc)
     # Normalize timezone: SQLite returns naive datetimes; PostgreSQL returns aware.
     rd = job.retention_deadline
     if rd is not None and rd.tzinfo is None:
         rd = rd.replace(tzinfo=timezone.utc)
     retry_eligible = job.status == "failed" and (rd is None or rd > now)
+    # Title/author: prefer authoritative Document (set after ingestion); fall back
+    # to precheck advisory data which is available immediately after upload.
+    book_title = (document.title if document else None) or (precheck.book_title if precheck else None)
+    book_author = (document.author if document else None) or (precheck.book_author if precheck else None)
     return JobResponse(
         job_id=str(job.job_id),
         user_id=str(job.user_id),
@@ -145,8 +154,8 @@ def _job_to_response(job: Job, document: Optional[Document] = None) -> JobRespon
         updated_at=job.updated_at.isoformat(),
         retention_deadline=job.retention_deadline.isoformat() if job.retention_deadline else None,
         retry_eligible=retry_eligible,
-        book_title=document.title if document else None,
-        book_author=document.author if document else None,
+        book_title=book_title,
+        book_author=book_author,
         progress_percent=job.progress_percent,
         pipeline_stage=job.pipeline_stage,
         eta_seconds_remaining=job.eta_seconds_remaining,
@@ -166,6 +175,21 @@ def _fetch_documents_by_job_ids(
         select(Document).where(Document.job_id.in_(job_ids))
     ).scalars().all()
     return {doc.job_id: doc for doc in rows}
+
+
+def _fetch_prechecks_by_artifact_ids(
+    session: Session, artifact_ids: List[uuid.UUID]
+) -> Dict[uuid.UUID, PreCheckResult]:
+    """Batch-fetch completed PreCheckResult records for a list of source artifact IDs."""
+    if not artifact_ids:
+        return {}
+    rows = session.execute(
+        select(PreCheckResult).where(
+            PreCheckResult.artifact_id.in_(artifact_ids),
+            PreCheckResult.status == "completed",
+        )
+    ).scalars().all()
+    return {pc.artifact_id: pc for pc in rows}
 
 
 @router.post("", response_model=JobResponse, status_code=status.HTTP_201_CREATED)
@@ -244,8 +268,16 @@ def create_job(
             message="job_tier_analytics_failed",
             payload={"error": type(exc).__name__},
         )
-    # Document does not exist at submission time
-    return _job_to_response(job, document=None)
+    # Document does not exist at submission time; use precheck for advisory title
+    precheck: Optional[PreCheckResult] = None
+    if job.source_artifact_id:
+        precheck = session.execute(
+            select(PreCheckResult).where(
+                PreCheckResult.artifact_id == job.source_artifact_id,
+                PreCheckResult.status == "completed",
+            )
+        ).scalar_one_or_none()
+    return _job_to_response(job, document=None, precheck=precheck)
 
 
 @router.get("", response_model=List[JobResponse])
@@ -256,7 +288,16 @@ def get_jobs(
     jobs = list_jobs(session=session, user_id=current_user_id)
     job_ids = [j.job_id for j in jobs]
     documents = _fetch_documents_by_job_ids(session, job_ids)
-    return [_job_to_response(j, document=documents.get(j.job_id)) for j in jobs]
+    artifact_ids = [j.source_artifact_id for j in jobs if j.source_artifact_id]
+    prechecks = _fetch_prechecks_by_artifact_ids(session, artifact_ids)
+    return [
+        _job_to_response(
+            j,
+            document=documents.get(j.job_id),
+            precheck=prechecks.get(j.source_artifact_id) if j.source_artifact_id else None,
+        )
+        for j in jobs
+    ]
 
 
 @router.get("/{job_id}/download-url", response_model=DownloadUrlResponse)
@@ -348,7 +389,15 @@ def get_job_detail(
     document = session.execute(
         select(Document).where(Document.job_id == job_id)
     ).scalar_one_or_none()
-    return _job_to_response(job, document=document)
+    precheck: Optional[PreCheckResult] = None
+    if job.source_artifact_id:
+        precheck = session.execute(
+            select(PreCheckResult).where(
+                PreCheckResult.artifact_id == job.source_artifact_id,
+                PreCheckResult.status == "completed",
+            )
+        ).scalar_one_or_none()
+    return _job_to_response(job, document=document, precheck=precheck)
 
 
 @router.post("/{job_id}/cancel", response_model=JobResponse)
