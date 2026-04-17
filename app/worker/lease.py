@@ -129,6 +129,28 @@ def find_active_processing_runs(session: Session) -> List[JobRun]:
     return list(rows)
 
 
+def find_timed_out_jobs(
+    session: Session,
+    timeout_seconds: int = 7200,
+) -> List[Job]:
+    """Return active jobs that have been waiting or processing longer than timeout_seconds.
+
+    Covers both jobs stuck in 'queued' state (never picked up or repeatedly recovered)
+    and jobs in 'processing' state whose total age exceeds the hard timeout.
+    The timeout is measured from job.created_at, not from when processing began,
+    so the 2-hour wall-clock guarantee starts from the moment the user submitted.
+    """
+    now = datetime.now(timezone.utc)
+    cutoff = now - timedelta(seconds=timeout_seconds)
+    rows = session.execute(
+        select(Job).where(
+            Job.status.in_(["queued", "processing"]),
+            Job.created_at < cutoff,
+        )
+    ).scalars().all()
+    return list(rows)
+
+
 def detect_expired_leases(session: Session) -> List[JobRun]:
     """Return all job_runs with expired leases still in 'leased' or 'processing' status."""
     now = datetime.now(timezone.utc)

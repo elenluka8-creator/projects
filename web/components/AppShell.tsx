@@ -48,6 +48,15 @@ export function AppShell({ children }: AppShellProps) {
                 <text x="72" y="42" fontFamily="Inter, system-ui, sans-serif" fontWeight="600" fontSize="34" fill="#1a1f36" letterSpacing="-0.5">Unfolda</text>
               </svg>
             </a>
+            <nav className="flex items-center gap-5" aria-label="Main navigation">
+              <a
+                href={`/${locale}/jobs`}
+                className="text-sm"
+                style={{ color: "var(--color-navy)", opacity: 0.7 }}
+              >
+                {t("jobs")}
+              </a>
+            </nav>
             <div className="ml-auto flex items-center gap-3">
               <LocaleSwitcher />
               <HeaderBar />

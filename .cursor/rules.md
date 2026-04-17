@@ -8,6 +8,42 @@ Conflict resolution rules are in the Precedence section of `AGENTS.md`.
 
 ---
 
+## Agent list
+
+| Agent | Role | Produces |
+|---|---|---|
+| Discovery | Explores technical options and trade-offs | Research report, recommendations |
+| Product | Turns rough ideas into scoped feature specs | Feature specification, task breakdown |
+| Designer | Creates UI mockups for user-facing features | Design artifact for Architect |
+| Analytics Architect | Defines events, metrics, and instrumentation locations | Analytics specification |
+| Architect | Produces implementation plan aligned with architecture | Implementation plan, acceptance criteria |
+| Test Strategist | Defines test strategy for the approved Architect plan | Test plan for Builder |
+| Builder | Implements the approved plan | Code changes, verification results |
+| Analytics Validator | Verifies that instrumentation matches Analytics Architect spec | Validation report |
+| Security Reviewer | Checks for security vulnerabilities in code changes | Security findings report |
+| Reviewer | Validates implementation against plan and architecture rules | Approval or change requests |
+
+---
+
+## Agent routing table
+
+| Condition | Starting agent |
+|---|---|
+| Choosing between technical options or approaches | Discovery |
+| Feature idea with unclear scope or missing acceptance criteria | Product |
+| Accepted spec with user-facing UI needing visual design | Designer |
+| Feature affects user behavior or measurable outcomes | Analytics Architect |
+| Implementation planning needed for an accepted spec | Architect |
+| Architect plan accepted, task has non-trivial testable logic | **Test Strategist** |
+| Approved plan (and test plan if applicable) ready for implementation | Builder |
+| Builder complete, Analytics Architect was used | Analytics Validator |
+| Builder (or Analytics Validator) complete, code changes present | Security Reviewer |
+| Security Reviewer complete | Reviewer |
+
+**Test Strategist** runs after the Architect plan is accepted and before Builder. It is optional — invoke it when the task introduces new modules, modifies existing behavior, involves branching or error-handling logic, touches pipeline stages, or involves external integrations. Skip it for trivial changes (config, documentation, dependency bumps, single-line fixes) or changes with no testable logic.
+
+---
+
 ## Planning rules
 
 Prefer plans that can be executed independently by Builder without requiring additional clarification.
@@ -148,3 +184,8 @@ When completing a task:
 
 Task creation rules are defined in `docs/TASK_BACKLOG_AUTOMATION.md`.
 
+\n- **Test Strategist** (`agents/test-strategist.md`) — runs after Architect and before Builder when the task has non-trivial testable logic; skip for trivial/config/doc changes
+
+
+## Test Strategist
+- **Test Strategist** (agents/test-strategist.md) — runs after Architect and before Builder when the task has non-trivial testable logic; skip for trivial/config/doc changes

@@ -18,17 +18,27 @@ import signal
 import threading
 import time
 
-from sqlalchemy import delete
+from datetime import datetime, timezone
+
+from sqlalchemy import delete, select
+from sqlalchemy.orm import Session
 
 from app.db.session import SessionLocal
-from app.db.models.job import Job
+from app.db.models.job import Job, JobRun
 from app.db.models.translation_batch import TranslationBatch
+from app.db.models.user import User
+from app.db.models.document import Document
+from app.domain.services.credit_service import refund_credits
 from app.logging.structured import log_structured
+from app.notifications.notification_service import send_job_timeout_notification
 from app.queue.broker import RedisQueueBroker
 from app.storage.client import BotoStorageClient
+from app.telemetry.timeline import emit_timeline_event
+from app.retention.policy import stamp_retention_deadline
 from app.worker.lease import (
     detect_expired_leases,
     find_active_processing_runs,
+    find_timed_out_jobs,
     find_unqueued_created_runs,
 )
 from app.worker.orchestrator import WorkerOrchestrator
@@ -37,6 +47,78 @@ logger = logging.getLogger(__name__)
 
 _IDLE_SLEEP_SECONDS = 2
 _WATCHDOG_INTERVAL_SECONDS = 60
+_JOB_TIMEOUT_SECONDS = int(os.environ.get("JOB_TIMEOUT_SECONDS", "7200"))
+
+
+def _expire_timed_out_jobs(session: Session) -> list[tuple]:
+    """Fail jobs that have been in an active state longer than the processing timeout.
+
+    Returns a list of (job_id, user_id, ui_locale) tuples for post-commit notification dispatch.
+    """
+    timed_out = find_timed_out_jobs(session, timeout_seconds=_JOB_TIMEOUT_SECONDS)
+    notifications: list[tuple] = []
+    terminal_at = datetime.now(timezone.utc)
+
+    for job in timed_out:
+        failure_reason = "Processing timeout: job exceeded the maximum allowed processing time."
+        job.status = "failed"
+        job.failure_reason = failure_reason
+        job.failure_class = "system"
+
+        # Fail any active job_run for this job as well.
+        active_run = session.execute(
+            select(JobRun).where(
+                JobRun.job_id == job.job_id,
+                JobRun.status.in_(["created", "leased", "processing"]),
+            )
+        ).scalars().first()
+        if active_run:
+            active_run.status = "failed"
+            active_run.completed_at = terminal_at
+            active_run.failure_reason = failure_reason
+            active_run.failure_class = "system"
+
+        session.flush()
+        stamp_retention_deadline(session, job, terminal_at=terminal_at)
+
+        if job.credit_estimate and job.credit_estimate > 0:
+            run_id = active_run.job_run_id if active_run else None
+            refund_credits(
+                session=session,
+                user_id=job.user_id,
+                job_id=job.job_id,
+                job_run_id=run_id,
+                amount=job.credit_estimate,
+            )
+            emit_timeline_event(
+                session=session,
+                job_id=job.job_id,
+                event_type="credit_refunded",
+                job_run_id=active_run.job_run_id if active_run else None,
+                user_id=job.user_id,
+            )
+
+        emit_timeline_event(
+            session=session,
+            job_id=job.job_id,
+            event_type="job_failed",
+            job_run_id=active_run.job_run_id if active_run else None,
+            user_id=job.user_id,
+            error_class="system",
+        )
+        log_structured(
+            logger=logger,
+            level=logging.WARNING,
+            message="job_timed_out",
+            payload={
+                "job_id": str(job.job_id),
+                "user_id": str(job.user_id),
+                "created_at": job.created_at.isoformat() if job.created_at else None,
+            },
+        )
+        notifications.append((job.job_id, job.user_id, job.ui_locale))
+
+    return notifications
 
 
 def _configure_logging() -> None:
@@ -47,13 +129,15 @@ def _configure_logging() -> None:
 
 
 def _run_watchdog(broker: RedisQueueBroker, shutdown_event: threading.Event) -> None:
-    """Background thread: detect and re-queue orphaned job_runs every 60 seconds."""
+    """Background thread: detect and re-queue orphaned job_runs every 60 seconds.
+    Also enforces the per-job processing timeout."""
     while not shutdown_event.is_set():
         shutdown_event.wait(timeout=_WATCHDOG_INTERVAL_SECONDS)
         if shutdown_event.is_set():
             break
         session = SessionLocal()
         _orphan_ids: list[tuple] = []
+        _timeout_notifications: list[tuple] = []
         try:
             orphans = detect_expired_leases(session)
             for run in orphans:
@@ -65,6 +149,10 @@ def _run_watchdog(broker: RedisQueueBroker, shutdown_event: threading.Event) -> 
                     job.status = "queued"
                 _orphan_ids.append((run.job_run_id, run.job_id))
             if orphans:
+                session.commit()
+
+            _timeout_notifications = _expire_timed_out_jobs(session)
+            if _timeout_notifications:
                 session.commit()
         except Exception:
             log_structured(
@@ -88,6 +176,35 @@ def _run_watchdog(broker: RedisQueueBroker, shutdown_event: threading.Event) -> 
                     "job_id": str(job_id),
                 },
             )
+
+        base_url = os.environ.get("APP_BASE_URL", "https://app.unfolda.app")
+        for job_id, user_id, ui_locale in _timeout_notifications:
+            notification_session = SessionLocal()
+            try:
+                user = notification_session.get(User, user_id)
+                doc = notification_session.execute(
+                    select(Document).where(Document.job_id == job_id)
+                ).scalars().first()
+                if user:
+                    book_title = (doc.title if doc and doc.title else None)
+                    send_job_timeout_notification(
+                        job_id=job_id,
+                        user_id=user_id,
+                        user_email=user.email,
+                        display_name=user.display_name or user.email,
+                        book_title=book_title,
+                        ui_locale=ui_locale,
+                        base_url=base_url,
+                    )
+            except Exception:
+                log_structured(
+                    logger=logger,
+                    level=logging.WARNING,
+                    message="timeout_notification_setup_failed",
+                    payload={"job_id": str(job_id)},
+                )
+            finally:
+                notification_session.close()
 
 
 def run() -> None:

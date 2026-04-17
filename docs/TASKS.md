@@ -71,6 +71,7 @@ Tasks are never deleted — use `cancelled` when a task is no longer needed.
 | FIX-7 | Watchdog enqueues run before session.commit() — potential stuck run on commit failure | OPS | completed | medium | small |
 | FIX-8 | Missing enum validation on mode/quality_tier/style fields in SubmitJobRequest | FEAT-SECURITY | planned | medium | small |
 | FIX-9 | Worker restart leaves processing runs stuck — reset to created on startup | OPS | completed | critical | small |
+| FIX-10 | Job processing timeout: fail stuck jobs after 2 h, refund credits, send email | OPS | completed | high | small |
 
 ---
 
@@ -1188,6 +1189,47 @@ acceptance_criteria:
     is ever added) should be scoped correctly — use worker_id or job-level check
 dependencies:
   - FIX-3 (partial batch resumability — complementary, not blocking)
+estimated_complexity: small
+```
+
+---
+
+### FIX-10 — Job processing timeout
+
+```
+task_id:              FIX-10
+title:                Job processing timeout: fail stuck jobs after 2 h, refund credits, send email
+type:                 fix
+status:               completed
+priority:             high
+capability_id:        OPS
+parent_feature:       OPS
+source_agent:         Iteration Manager
+description:          Jobs in 'queued' or 'processing' state whose created_at is older than 2 hours
+                      (configurable via JOB_TIMEOUT_SECONDS env var, default 7200) are failed
+                      by the watchdog thread. The job and any active job_run are transitioned to
+                      'failed' with failure_class='system'. Reserved credits are refunded. A
+                      timeout email is sent to the user's account email address via the existing
+                      Resend integration, using new job_timeout Jinja2 templates for all 14 locales.
+                      The frontend detail page shows an alternate "overdue" banner when a job has
+                      been in 'queued' state for ≥ 2 hours client-side (computed from created_at).
+acceptance_criteria:
+  - find_timed_out_jobs() returns jobs in queued/processing state older than timeout_seconds
+  - Timed-out jobs are transitioned to failed with failure_class='system' and a clear failure_reason
+  - Any active job_run for the job is also transitioned to failed
+  - Reserved credits are refunded idempotently
+  - credit_refunded and job_failed timeline events are emitted
+  - Retention deadline is stamped on timeout
+  - A timeout email is sent using the job_timeout/{locale}.txt.j2 template
+  - Email dispatch is non-fatal; job remains failed on any email error
+  - 14 job_timeout email templates exist (one per supported locale)
+  - Frontend shows alternate overdue banner when queued job age >= 2 hours
+  - Timeout is configurable via JOB_TIMEOUT_SECONDS env var
+dependencies:
+  - TASK-78 (ui_locale on jobs)
+  - TASK-79 (email client)
+  - TASK-80 (template infrastructure)
+  - TASK-81 (notification service)
 estimated_complexity: small
 ```
 
