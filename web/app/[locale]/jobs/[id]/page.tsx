@@ -217,6 +217,11 @@ export default function JobDetailPage() {
 
   const isActive = ACTIVE_STATUSES.has(job.status);
 
+  const QUEUE_OVERDUE_MS = 2 * 60 * 60 * 1000;
+  const isQueuedOverdue =
+    job.status === "queued" &&
+    Date.now() - new Date(job.created_at).getTime() >= QUEUE_OVERDUE_MS;
+
   const etaSeconds = job.eta_seconds_remaining ?? null;
   const etaText =
     etaSeconds != null && etaSeconds > 0
@@ -291,10 +296,10 @@ export default function JobDetailPage() {
                 {job.status === "queued" ? (
                   <>
                     <p className="text-sm font-medium" style={{ color: "var(--color-navy)" }}>
-                      {t("queuedStatusTitle")}
+                      {isQueuedOverdue ? t("queuedOverdueTitle") : t("queuedStatusTitle")}
                     </p>
                     <p className="mt-1 text-sm" style={{ color: "var(--color-navy)", opacity: 0.7 }}>
-                      {t("queuedStatusSubtitle")}
+                      {isQueuedOverdue ? t("queuedOverdueSubtitle") : t("queuedStatusSubtitle")}
                     </p>
                   </>
                 ) : (
