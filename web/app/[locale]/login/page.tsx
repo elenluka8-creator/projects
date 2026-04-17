@@ -68,7 +68,7 @@ export default function LoginPage() {
 
           <button
             type="button"
-            onClick={() => signIn("google", { callbackUrl: `/${locale}/upload` })}
+            onClick={() => signIn("google", { callbackUrl: `/${locale}/jobs` })}
             className="flex w-full items-center justify-center gap-3 rounded border px-5 py-3 text-sm font-medium transition-colors"
             style={{
               borderColor: "#d4cfc8",

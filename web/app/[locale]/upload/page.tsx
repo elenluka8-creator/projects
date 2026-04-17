@@ -1,10 +1,19 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { AppShell } from "@/components/AppShell";
 import { api, type PrecheckResult, type CreditEstimate, type CreditsBalance } from "@/lib/api";
+
+function useHasJobs(): boolean {
+  const [hasJobs, setHasJobs] = useState(false);
+  useEffect(() => {
+    api.listJobs().then((jobs) => setHasJobs(jobs.length > 0)).catch(() => {});
+  }, []);
+  return hasJobs;
+}
 
 const MAX_FILE_BYTES = 50 * 1024 * 1024;
 
@@ -418,10 +427,12 @@ function BalanceDisplay({
 
 export default function UploadPage() {
   const t = useTranslations("upload");
+  const tNav = useTranslations("nav");
   const tCommon = useTranslations("common");
   const locale = useLocale();
   const router = useRouter();
   const { phase, run, reset } = useUploadFlow(t);
+  const hasJobs = useHasJobs();
 
   const [mode, setMode] = useState<"translate" | "guided">("translate");
   const [qualityTier, setQualityTier] = useState<"express" | "standard" | "premium">("express");
@@ -550,6 +561,15 @@ export default function UploadPage() {
   return (
     <AppShell>
       <div className="max-w-content mx-auto">
+        {hasJobs && (
+          <Link
+            href={`/${locale}/jobs`}
+            className="mb-6 inline-block text-sm"
+            style={{ color: "var(--color-navy)", opacity: 0.55 }}
+          >
+            {`← ${tNav("jobs")}`}
+          </Link>
+        )}
         <h1 className="font-heading mb-2 text-2xl" style={{ color: "var(--color-navy)" }}>
           {t("title")}
         </h1>
