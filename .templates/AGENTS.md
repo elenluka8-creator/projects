@@ -442,6 +442,36 @@ All code changes must go through **Security Reviewer** and **Reviewer**. Iterati
 
 ---
 
+# Onboarding Workflow
+
+The Onboarding Workflow is a special workflow used **only for new projects** where project documents (`docs/PRD.md`, `docs/ARCHITECTURE.md`) are missing or empty stubs.
+
+Iteration Manager detects the onboarding condition when:
+
+- `docs/PRD.md` is missing or contains only a placeholder comment
+- `docs/ARCHITECTURE.md` is missing or contains only a placeholder comment
+- the user explicitly triggers onboarding (e.g. "Start a new project")
+
+When the onboarding condition is detected, Iteration Manager starts the Onboarding Workflow instead of the normal development workflow.
+
+The Onboarding Workflow phases:
+
+| Phase | Agent | Responsibility | Output |
+|---|---|---|---|
+| 1 | Discovery | Product identity, users, competitors, technical constraints | Discovery Brief |
+| 2 | Product | PRD → Quality Loop (up to 3 iterations) | `docs/PRD.md` |
+| 3 | Designer | Brand, colors, typography, UI patterns → Quality Loop | `docs/BRAND.md` |
+| 4 | Architect | Tech stack, pipeline, domain rules → Quality Loop | `docs/ARCHITECTURE.md`, `docs/PIPELINE_CONTRACTS.md`, `docs/FEATURE_MAP.md` |
+| 5 | IM | Generate `project.config.yaml`, re-render templates, create stubs, commit | Ready for development |
+
+Phase 3 (Designer) is optional — skipped for backend-only or API-only products.
+
+The Onboarding Workflow runs exactly once per project. After Phase 5, the normal development workflow applies to all subsequent requests.
+
+See `docs/ONBOARDING.md` for the full onboarding guide including Scenario A (guided onboarding), Scenario B (manual setup), and Scenario C (existing project upgrade).
+
+---
+
 # Quality Iteration Workflow
 
 The Iteration Manager decides when the Quality Iteration Workflow should be used:
