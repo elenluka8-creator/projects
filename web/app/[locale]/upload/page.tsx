@@ -411,7 +411,9 @@ function BalanceDisplay({
           {estimate.validation_errors.length > 0 && (
             <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
               {estimate.validation_errors.map((e) => (
-                <li key={e} style={{ ...row, color: "#c0392b" }}>{e}</li>
+                <li key={e} style={{ ...row, color: "#c0392b" }}>
+                  {e.toLowerCase().includes("source and target") ? t("error_sameLang") : e}
+                </li>
               ))}
             </ul>
           )}
@@ -671,13 +673,22 @@ export default function UploadPage() {
               </div>
             </fieldset>
 
-            <SelectField
-              id="target-language"
-              label={t("targetLangLabel")}
-              value={targetLanguage}
-              onChange={setTargetLanguage}
-              options={TARGET_LANGUAGES}
-            />
+            <div>
+              <SelectField
+                id="target-language"
+                label={t("targetLangLabel")}
+                value={targetLanguage}
+                onChange={setTargetLanguage}
+                options={TARGET_LANGUAGES}
+              />
+              {detectedLanguage && (
+                <p className="mt-1 text-xs" style={{ color: "var(--color-navy)", opacity: 0.55 }}>
+                  {t("targetLangHint", {
+                    lang: new Intl.DisplayNames([locale], { type: "language" }).of(detectedLanguage) ?? detectedLanguage,
+                  })}
+                </p>
+              )}
+            </div>
 
             <SelectField
               id="translation-style"
