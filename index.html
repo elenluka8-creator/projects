@@ -29,6 +29,15 @@
       content="Read EPUB books in original languages and understand more with contextual parallel paragraphs."
     />
     <link rel="stylesheet" href="./styles.css?v=20260326" />
+    <script>
+      // Apply persisted language before first paint to prevent FOUC.
+      (function () {
+        try {
+          var lang = localStorage.getItem("unfolda_lang");
+          if (lang) document.documentElement.setAttribute("data-lang-pending", lang);
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <header class="topbar">
@@ -67,7 +76,7 @@
             <div class="hero-actions">
               <a
                 class="btn btn-primary"
-                href="https://unfolda.ai"
+                href="https://www.unfolda.ai"
                 target="_blank"
                 rel="noopener noreferrer"
                 data-track="hero-primary-cta"
@@ -263,7 +272,7 @@
             </details>
             <details class="faq-item" data-faq-id="platform">
               <summary data-i18n="faq.q2">Is this a mobile app or a web service?</summary>
-              <p data-i18n="faq.a2">Unfolda is a web service. You can start directly at https://unfolda.ai.</p>
+              <p data-i18n="faq.a2">Unfolda is a web service. You can start directly at https://www.unfolda.ai.</p>
             </details>
             <details class="faq-item" data-faq-id="languages">
               <summary data-i18n="faq.q3">Which learning languages are available?</summary>
@@ -279,7 +288,7 @@
           <p data-i18n="finalCta.subtitle">Upload an EPUB and start reading with parallel context right away.</p>
           <a
             class="btn btn-primary btn-large"
-            href="https://unfolda.ai"
+            href="https://www.unfolda.ai"
             target="_blank"
             rel="noopener noreferrer"
             data-track="final-web-cta"
@@ -301,7 +310,7 @@
 
     <a
       class="sticky-mobile-cta"
-      href="https://unfolda.ai"
+      href="https://www.unfolda.ai"
       target="_blank"
       rel="noopener noreferrer"
       data-track="sticky-cta"

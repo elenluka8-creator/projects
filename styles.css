@@ -346,14 +346,14 @@ p {
 }
 
 .mascot-emoji {
-  width: 4rem;
-  height: 4rem;
+  width: 5.5rem;
+  height: 5.5rem;
   border-radius: 999px;
   background: radial-gradient(circle at 30% 30%, color-mix(in oklab, var(--brand-soft) 75%, #ffffff), var(--brand-soft));
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.1rem;
+  font-size: 3rem;
   box-shadow: 0 12px 28px rgba(79, 70, 229, 0.24);
   animation: mascot-float 5.2s ease-in-out infinite;
 }

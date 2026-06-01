@@ -135,6 +135,8 @@
 
     applySeo(language);
     updateLangButtons(language);
+    document.documentElement.removeAttribute("data-lang-pending");
+    document.documentElement.classList.add("i18n-ready");
 
     var langSwitcher = document.querySelector(".lang-switcher");
     var langAria =

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
 import { AppShell } from "@/components/AppShell";
 import { JobStatusBadge } from "@/components/JobStatusBadge";
 import { api, ApiError, type Job, type DownloadUrlResponse } from "@/lib/api";
@@ -173,6 +174,8 @@ export default function JobDetailPage() {
   const locale = useLocale();
   const { id } = useParams<{ id: string }>();
   const { job, loading, error } = useJobDetail(id);
+  const { data: session } = useSession();
+  const userEmail = session?.user?.email ?? null;
 
   if (loading) {
     return (
@@ -303,13 +306,20 @@ export default function JobDetailPage() {
                     </p>
                   </>
                 ) : (
-                  <p className="text-sm font-medium" style={{ color: "var(--color-navy)" }}>
-                    {job.pipeline_stage
-                      ? t("processingStage", {
-                          stage: translateStage(t, job.pipeline_stage),
-                        })
-                      : t("processingBook")}
-                  </p>
+                  <>
+                    <p className="text-sm font-medium" style={{ color: "var(--color-navy)" }}>
+                      {job.pipeline_stage
+                        ? t("processingStage", {
+                            stage: translateStage(t, job.pipeline_stage),
+                          })
+                        : t("processingBook")}
+                    </p>
+                    <p className="mt-1 text-sm" style={{ color: "var(--color-navy)", opacity: 0.7 }}>
+                      {userEmail
+                        ? t("processingEmailNote", { email: userEmail })
+                        : t("processingEmailNoteFallback")}
+                    </p>
+                  </>
                 )}
                 {(job.progress_percent ?? 0) > 0 && (
                   <>
@@ -327,7 +337,7 @@ export default function JobDetailPage() {
                     </div>
                     <p className="mt-2 text-xs" style={{ color: "var(--color-navy)", opacity: 0.65 }}>
                       {t("percentComplete", { percent: job.progress_percent ?? 0 })}
-                      {etaText ? ` · ${etaText}` : ""}
+                      {etaText ? ` · ${etaText}` : ` · ${t("etaCalculating")}`}
                     </p>
                   </>
                 )}
