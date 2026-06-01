@@ -32,7 +32,6 @@ window.UNFOLDA_LOCALES = {
       productOriginalLabel: "Original",
       productOriginalText: "She opened the old book and smiled.",
       productParallelLabel: "Parallel context",
-      productParallelLabel: "Параллельный контекст",
       productParallelText: "Она открыла старую книгу и улыбнулась.",
     },
     proof: {
@@ -150,7 +149,6 @@ window.UNFOLDA_LOCALES = {
       productMockupTitle: "Превью чтения",
       productOriginalLabel: "Оригинал",
       productOriginalText: "She opened the old book and smiled.",
-      productParallelLabel: "Parallel context",
       productParallelLabel: "Параллельный контекст",
       productParallelText: "Она открыла старую книгу и улыбнулась.",
     },

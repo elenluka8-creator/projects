@@ -29,6 +29,15 @@
       content="Read EPUB books in original languages and understand more with contextual parallel paragraphs."
     />
     <link rel="stylesheet" href="./styles.css?v=20260326" />
+    <script>
+      // Apply persisted language before first paint to prevent FOUC.
+      (function () {
+        try {
+          var lang = localStorage.getItem("unfolda_lang");
+          if (lang) document.documentElement.setAttribute("data-lang-pending", lang);
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <header class="topbar">
