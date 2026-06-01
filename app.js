@@ -288,10 +288,62 @@
     showLanguageNoticeIfNeeded(detected.source, detected.lang);
   }
 
+  var APP_BASE = "https://www.unfolda.ai";
+
+  function updateCtaLinks(lang) {
+    // Point all CTA buttons to the app in the correct locale.
+    // Logged-in users: www.unfolda.ai/{lang}/jobs
+    // New users:       www.unfolda.ai/{lang}/upload
+    var ctaNodes = document.querySelectorAll("[data-track] , .sticky-mobile-cta");
+    ctaNodes.forEach(function (node) {
+      var track = node.getAttribute("data-track") || "";
+      if (
+        track.indexOf("cta") !== -1 ||
+        node.classList.contains("sticky-mobile-cta")
+      ) {
+        node.setAttribute("href", APP_BASE + "/" + lang + "/upload");
+      }
+    });
+  }
+
+  function redirectIfLoggedIn(lang) {
+    // If the user has an active NextAuth session cookie for www.unfolda.ai,
+    // we can't read it cross-domain — but we CAN check the app via a silent
+    // fetch to the BFF profile endpoint. If it returns 200, redirect to jobs.
+    try {
+      fetch(APP_BASE + "/api/backend/config/profile", {
+        credentials: "include",
+        cache: "no-store",
+      })
+        .then(function (res) {
+          if (res.ok) {
+            window.location.replace(APP_BASE + "/" + lang + "/jobs");
+          }
+        })
+        .catch(function () {
+          // Not logged in or network error — stay on landing.
+        });
+    } catch (e) {
+      // Ignore any errors.
+    }
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
+    var detected = detectLanguage();
     initializeLanguage();
     initializeTheme();
     setupCtaTracking();
     setupFaqTracking();
+    updateCtaLinks(detected.lang);
+    redirectIfLoggedIn(detected.lang);
+
+    // Keep CTA links updated when user switches language.
+    var langButtons = document.querySelectorAll(".lang-btn");
+    langButtons.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var selected = btn.getAttribute("data-lang");
+        if (selected) updateCtaLinks(selected);
+      });
+    });
   });
 })();
